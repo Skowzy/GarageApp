@@ -3,17 +3,17 @@
         <h1 class="text-4xl font-bold text-center mb-8">Gérez l'entretien de vos véhicules en toute simplicité</h1>
         <div class="grid md:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-lg shadow text-center">
-                <i class="fas fa-car text-5xl text-red-600 mb-4"></i>
+                <i class="fas fa-car text-5xl text-blue-900 mb-4"></i>
                 <h2 class="text-xl font-semibold mb-2">Ajoutez vos véhicules</h2>
                 <p>Enregistrez les informations de vos véhicules pour un suivi personnalisé.</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow text-center">
-                <i class="fas fa-tools text-5xl text-red-600 mb-4"></i>
+                <i class="fas fa-tools text-5xl text-blue-900 mb-4"></i>
                 <h2 class="text-xl font-semibold mb-2">Planifiez vos entretiens</h2>
                 <p>Programmez et suivez les opérations de maintenance de vos véhicules.</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow text-center">
-                <i class="fas fa-bell text-5xl text-red-600 mb-4"></i>
+                <i class="fas fa-bell text-5xl text-blue-900 mb-4"></i>
                 <h2 class="text-xl font-semibold mb-2">Recevez des rappels</h2>
                 <p>Soyez notifié des entretiens à venir pour ne rien oublier.</p>
             </div>
@@ -39,7 +39,7 @@
                     <input type="number" id="annee" class="w-full p-2 border rounded" placeholder="Ex: 2023">
                 </div>
                 <div class="flex items-end">
-                    <button type="submit" class="w-full bg-red-600 text-white text-center py-2 px-4 rounded hover:bg-red-700 cursor-pointer">
+                    <button type="submit" class="w-full bg-blue-900 text-white text-center py-2 px-4 rounded hover:bg-blue-800 cursor-pointer">
                         Ajouter mon véhicule
                     </button>
                 </div>

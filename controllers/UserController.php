@@ -2,12 +2,36 @@
 
 class UserController
 {
+
+    public function showAll()
+    {
+        try {
+            $model = new UserModel();
+            $datas = $model->listUsers();
+
+            foreach ($datas as $data) {
+                $users[] = new User($data);
+            }
+
+//            dump($users);
+            require "views/user/showAll.php";
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+
     /**
      * @return void
      */
     public function register()
     {
-        require "views/user/register.php";
+        try {
+
+            require "views/user/register.php";
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**
@@ -22,7 +46,16 @@ class UserController
 
             if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login']) && !empty($request['password'])) {
                 $model = new UserModel();
-                $user = $model->createUser($request);
+
+                $datas = $model->listUsers();
+                foreach ($datas as $data) {
+                    if ($data['use_login'] == $request['login']) {
+                        header('Location: ?adduser=error');
+                        exit();
+                    }
+                    $user = $model->createUser($request);
+
+                }
             }
             if ($user) {
                 header('Location: ?adduser=success');
@@ -87,7 +120,37 @@ class UserController
             session_destroy();
             header('Location: ?disconnected=success');
             exit();
-        }catch (Exception $e){
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function remove($id)
+    {
+        try {
+            $model = new UserModel();
+            $delete = $model->deleteUser($id);
+            if ($delete) {
+                header('Location: ?ctrl=user&action=showall&deleted=success');
+                exit();
+
+            } else {
+                header('Location: ?ctrl=user&action=showall&deleted=error');
+                exit();
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function profile($id)
+    {
+        try {
+            $userModel = new UserModel();
+            $data = $userModel->readOne($id);
+            $user = new User($data);
+            require "views/user/showOne.php";
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }

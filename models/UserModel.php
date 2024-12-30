@@ -3,7 +3,7 @@
 class UserModel extends CoreModel
 {
 
-    private $req;
+    private $_req;
 
 
     /**
@@ -12,8 +12,8 @@ class UserModel extends CoreModel
      */
     public function createUser($request)
     {
+        $sql = "INSERT INTO user_ (use_firstname, use_lastname, use_login, use_password, rol_id ) VALUES (:firstname, :lastname, :login,:password,2)";
         try {
-            $sql = "INSERT INTO user_ (use_firstname, use_lastname, use_login, use_password, rol_id ) VALUES (:firstname, :lastname, :login,:password,2)";
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
                 $hashedPassword = password_hash($request['password'], PASSWORD_DEFAULT);
                 if (($this->_req->bindValue(':firstname', $request['firstname']) && $this->_req->bindValue(':lastname', $request['lastname']) && $this->_req->bindValue(':login', $request['login']) && $this->_req->bindValue(':password', $hashedPassword))) {
@@ -28,18 +28,35 @@ class UserModel extends CoreModel
         }
     }
 
+    public function deleteUser($id)
+    {
+        $sql = "DELETE FROM user_ WHERE use_id = :id";
+        try {
+            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                if ($this->_req->bindValue(':id', $id, PDO::PARAM_INT)) {
+                    if ($this->_req->execute()) {
+                        return true;
+                    }
+                }
+            }
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+
     /**
      * @param $request
      * @return false|mixed|void
      */
     public function login($request)
     {
-        try {
-            $sql = "SELECT user_.*, rol_power
+        $sql = "SELECT user_.*, rol_power
             FROM user_
             JOIN role
             ON user_.rol_id = role.rol_id
             WHERE use_login = :login";
+        try {
 
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
                 if ($this->_req->bindValue(':login', $request['login'], PDO::PARAM_STR)) {
@@ -51,10 +68,49 @@ class UserModel extends CoreModel
                     }
                 }
             }
-
             return false;
         } catch (PDOException $e) {
             die($e->getMessage());
+        }
+    }
+
+    /**
+     * @return array|false|void
+     */
+    public function listUsers()
+    {
+        $sql = "
+                SELECT use_id, use_firstname,use_lastname, use_login, rol_label 
+                FROM user_
+                JOIN role ON user_.rol_id = role.rol_id
+                ";
+        try {
+
+            if (($this->_req = $this->getDb()->query($sql)) !== false) {
+                $datas = $this->_req->fetchAll(PDO::FETCH_ASSOC);
+                return $datas;
+            }
+            return false;
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function readOne($id)
+    {
+        $sql = "SELECT * FROM user_ WHERE use_id = :id ";
+
+        try {
+            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                if ($this->_req->bindValue(':id', $id, PDO::PARAM_INT)) {
+                    if ($this->_req->execute()) {
+                        $data = $this->_req->fetch(PDO::FETCH_ASSOC);
+                        return $data;
+                    }
+                }
+            }
+        }catch (PDOException $e) {
+            die ($e->getMessage());
         }
     }
 

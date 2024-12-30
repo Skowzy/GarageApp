@@ -7,9 +7,9 @@ class User extends CoreEntity
     private string $firstName;
     private string $lastName;
     private string $login;
-    private string $password;
+    private ?string $password;
     private int $role;
-
+    private string $label;
 
     /**
      * @return int
@@ -112,4 +112,21 @@ class User extends CoreEntity
     {
         $this->role = $role;
     }
+
+    /**
+     * @param string $label
+     */
+    public function setLabel(string $label): void
+    {
+        $this->label = $label;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
 }
