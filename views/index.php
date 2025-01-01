@@ -23,21 +23,22 @@
     <section class="mb-12">
         <h2 class="text-3xl font-bold mb-6">Commencez dès maintenant</h2>
         <div class="bg-white p-6 rounded-lg shadow">
-            <form class="grid md:grid-cols-4 gap-4" action="?<?= isset($_SESSION['user']) ? "ctrl=car&action=store":"ctrl=user&action=login" ?>" method="post">
+            <form class="grid md:grid-cols-4 gap-4" action="?<?= isset($_SESSION['user']) ? "ctrl=car&action=store" : "ctrl=user&action=login" ?>" method="post">
                 <div>
-                    <label for="marque" class="block mb-2">Marque</label>
-                    <input id="marque" class="w-full p-2 border rounded">
+                    <label for="brand" class="block mb-2">Marque</label>
+                    <input id="brand" name="brand" class="w-full p-2 border rounded" required>
 
                 </div>
                 <div>
-                    <label for="modele" class="block mb-2">Modèle</label>
-                    <input id="modele" class="w-full p-2 border rounded">
+                    <label for="model" class="block mb-2">Modèle</label>
+                    <input id="model" name="model" class="w-full p-2 border rounded" required>
 
                 </div>
                 <div>
-                    <label for="annee" class="block mb-2">Année</label>
-                    <input type="number" id="annee" class="w-full p-2 border rounded" placeholder="Ex: 2023">
+                    <label for="year" class="block mb-2">Année</label>
+                    <input type="number" id="year" name="year" class="w-full p-2 border rounded" placeholder="Ex: 2023" min="1900" max="2100" required>
                 </div>
+                <input type="hidden" name="id" value="<?=$_SESSION['user']['id']?>">
                 <div class="flex items-end">
                     <button type="submit" class="w-full bg-blue-900 text-white text-center py-2 px-4 rounded hover:bg-blue-800 cursor-pointer">
                         Ajouter mon véhicule

@@ -1,4 +1,4 @@
-<footer class="bg-gray-800 text-white mt-12 inset-y-0">
+<footer class="bg-gray-800 text-white mt-12">
     <div class="container mx-auto px-4 py-8">
         <div class="grid md:grid-cols-4 gap-8">
             <div>
@@ -18,8 +18,8 @@
             <div>
                 <h3 class="font-bold mb-4">Mon compte</h3>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-blue-400">Connexion</a></li>
-                    <li><a href="#" class="hover:text-blue-400">Inscription</a></li>
+                    <li><a href="?ctrl=user&action=login" class="hover:text-blue-400">Connexion</a></li>
+                    <li><a href="?ctrl=user&action=register" class="hover:text-blue-400">Inscription</a></li>
                 </ul>
             </div>
             <div>
@@ -30,9 +30,6 @@
                     <a href="#" class="text-2xl hover:text-blue-400"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
-        </div>
-        <div class="mt-8 text-center">
-            <p>&copy; 2023 AutoCare. Tous droits réservés.</p>
         </div>
     </div>
 </footer>

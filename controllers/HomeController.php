@@ -3,12 +3,12 @@
 class HomeController
 {
 
-    function index(){
+    public function index()
+    {
 
         require "views/index.php";
 
     }
-
 
 
 }

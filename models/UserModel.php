@@ -28,6 +28,10 @@ class UserModel extends CoreModel
         }
     }
 
+    /**
+     * @param $id
+     * @return true|void
+     */
     public function deleteUser($id)
     {
         $sql = "DELETE FROM user_ WHERE use_id = :id";
@@ -96,6 +100,11 @@ class UserModel extends CoreModel
         }
     }
 
+
+    /**
+     * @param $id
+     * @return mixed|void
+     */
     public function readOne($id)
     {
         $sql = "SELECT * FROM user_ WHERE use_id = :id ";

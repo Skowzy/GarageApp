@@ -21,6 +21,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider user-login"><?=$user->getLogin()?></th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider user-role"><?=$user->getLabel()?></th>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <a href="?ctrl=user&action=profile&id=<?=$user->getId()?>"><i class="fa-regular fa-eye text-blue-600 hover:text-blue-900"></i></a>
                         <a href="?ctrl=user&action=edit&id=<?=$user->getId()?>" class="text-blue-600 hover:text-blue-900 mr-3">Modifier</a>
                         <a href="?ctrl=user&action=remove&id=<?=$user->getId()?>" class="text-red-600 hover:text-red-900" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">Supprimer</a>
                     </td>

@@ -20,6 +20,10 @@
                     <input type="password" id="password" name="password" required class="w-full p-2 border rounded focus:border-blue-900 focus:ring focus:ring-blue-200">
                 </div>
                 <div>
+                    <label for="passwordConfirm" class="block mb-2 text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
+                    <input type="password" id="passwordConfirm" name="passwordConfirm" required class="w-full p-2 border rounded focus:border-blue-900 focus:ring focus:ring-blue-200">
+                </div>
+                <div>
                     <button type="submit" class="w-full bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition duration-300">
                         S'inscrire
                     </button>

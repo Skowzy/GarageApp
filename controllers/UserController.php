@@ -3,6 +3,9 @@
 class UserController
 {
 
+    /**
+     * @return void
+     */
     public function showAll()
     {
         try {
@@ -44,7 +47,7 @@ class UserController
 
             $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
 
-            if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login']) && !empty($request['password'])) {
+            if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login']) && !empty($request['password']) && !empty($request['passwordConfirm']) && $request['password'] == $request['passwordConfirm']) {
                 $model = new UserModel();
 
                 $datas = $model->listUsers();
@@ -125,6 +128,10 @@ class UserController
         }
     }
 
+    /**
+     * @param $id
+     * @return void
+     */
     public function remove($id)
     {
         try {
@@ -143,6 +150,10 @@ class UserController
         }
     }
 
+    /**
+     * @param $id
+     * @return void
+     */
     public function profile($id)
     {
         try {
