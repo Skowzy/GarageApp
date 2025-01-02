@@ -38,7 +38,9 @@
                     <label for="year" class="block mb-2">Année</label>
                     <input type="number" id="year" name="year" class="w-full p-2 border rounded" placeholder="Ex: 2023" min="1900" max="2100" required>
                 </div>
+                <?php if (isset($_SESSION['user'])) : ?>
                 <input type="hidden" name="id" value="<?=$_SESSION['user']['id']?>">
+                <?php endif; ?>
                 <div class="flex items-end">
                     <button type="submit" class="w-full bg-blue-900 text-white text-center py-2 px-4 rounded hover:bg-blue-800 cursor-pointer">
                         Ajouter mon véhicule

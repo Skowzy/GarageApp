@@ -9,12 +9,22 @@ class Car extends CoreEntity
     private ?int $kilometers;
     private int $use_id;
 
+    private string $fullname;
+
     /**
      * @return int
      */
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullname(): string
+    {
+        return $this->fullname;
     }
 
     /**
@@ -110,4 +120,13 @@ class Car extends CoreEntity
     {
         $this->use_id = $use_id;
     }
+
+    /**
+     * @param string $fullname
+     */
+    public function setFullname(string $fullname): void
+    {
+        $this->fullname = $fullname;
+    }
+
 }

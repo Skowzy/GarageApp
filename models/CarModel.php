@@ -36,7 +36,11 @@ class CarModel extends CoreModel
 
     public function viewCars($id)
     {
-        $sql = "SELECT * FROM car WHERE use_id = :id";
+        $sql = "SELECT car_id, car_brand, car_model, car_year, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
+                FROM car
+                JOIN user_ ON car.use_id = user_.use_id
+                WHERE car.use_id = :id";"
+                ";
         try {
             if ($this->_req = $this->getDb()->prepare($sql)) {
                 if (($this->_req->bindValue(':id', $id, PDO::PARAM_STR))) {
@@ -50,4 +54,58 @@ class CarModel extends CoreModel
             die($e->getMessage());
         }
     }
+
+    public function listCars()
+    {
+        $sql = "
+                SELECT car_id, car_brand, car_model, car_year, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
+                FROM car
+                JOIN user_ ON car.use_id = user_.use_id
+                ";
+        try {
+
+            if (($this->_req = $this->getDb()->query($sql)) !== false) {
+                $datas = $this->_req->fetchAll(PDO::FETCH_ASSOC);
+                return $datas;
+            }
+            return false;
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function deleteCar($id)
+    {
+        $sql = "DELETE FROM car WHERE car_id = :id";
+        try {
+            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                if ($this->_req->bindValue(':id', $id, PDO::PARAM_INT)) {
+                    if ($this->_req->execute()) {
+                        return true;
+                    }
+                }
+            }
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function readOne($id)
+    {
+        $sql = "SELECT * FROM car WHERE car_id = :id ";
+
+        try {
+            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                if ($this->_req->bindValue(':id', $id, PDO::PARAM_INT)) {
+                    if ($this->_req->execute()) {
+                        $data = $this->_req->fetch(PDO::FETCH_ASSOC);
+                        return $data;
+                    }
+                }
+            }
+        }catch (PDOException $e) {
+            die ($e->getMessage());
+        }
+    }
+
 }

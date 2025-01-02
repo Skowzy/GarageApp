@@ -1,6 +1,6 @@
 <?php
 
-class Actions extends CoreEntity
+class Maintenance extends CoreEntity
 {
     private int $id;
     private string $name;

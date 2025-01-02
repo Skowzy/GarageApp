@@ -31,10 +31,23 @@ class CarController
         }
     }
 
-
+    /**
+     * @return void
+     */
     public function showAll($id)
     {
-        $model = new CarModel();
+        try {
+            $model = new carModel();
+            $datas = $model->viewCars($id);
 
+            foreach ($datas as $data) {
+                $cars[] = new Car($data);
+            }
+
+//            dump($cars);
+            require "views/car/showAll.php";
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }
