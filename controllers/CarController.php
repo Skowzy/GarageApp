@@ -4,6 +4,18 @@ class CarController
 {
 
     /**
+     * @return void
+     */
+    public function create()
+    {
+        try{
+            require_once 'views/car/addOne.php';
+        }catch (Exception $e){
+            echo $e->getMessage();
+        }
+    }
+
+    /**
      * @param $request
      * @return void
      */
@@ -15,13 +27,16 @@ class CarController
         try {
 
             $model = new CarModel();
+
+            if(!empty($request['brand']) && !empty($request['model']) && !empty($request['year'])){
             $car = $model->createCar($request);
+            }
 
             if ($car) {
-                header('Location: ?addcar=success');
+                header('Location: ?ctrl=car&action=showAll&id=' . $_SESSION['user']['id'] .'&addcar=success');
                 exit();
             } else {
-                header('Location: ?addcar=error');
+                header('Location: ?ctrl=car&action=showAll&id=' . $_SESSION['user']['id'] .'&addcar=error');
                 exit();
             }
 

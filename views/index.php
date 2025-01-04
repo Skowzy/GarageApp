@@ -1,4 +1,4 @@
-<main class="container mx-auto px-4 py-8">
+<main class="container mx-auto px-4 py-8 min-h-screen">
     <section class="mb-12">
         <h1 class="text-4xl font-bold text-center mb-8">Gérez l'entretien de vos véhicules en toute simplicité</h1>
         <div class="grid md:grid-cols-3 gap-6">

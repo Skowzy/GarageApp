@@ -92,6 +92,7 @@ class UserController
             if (!empty($request['login']) && !empty($request['password'])) {
                 $model = new UserModel();
                 $login = $model->login($request);
+                $lastLogin = $model->lastLogin($request);
             }
             if ($login) {
                 $_SESSION['user'] = [

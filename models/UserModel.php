@@ -62,6 +62,7 @@ class UserModel extends CoreModel
             JOIN role
             ON user_.rol_id = role.rol_id
             WHERE use_login = :login";
+
         try {
 
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
@@ -151,4 +152,26 @@ class UserModel extends CoreModel
             die($e->getMessage());
         }
     }
+
+    public function lastLogin($request)
+    {
+        $sql = "UPDATE user_
+            SET  use_lastLogin= CURRENT_TIMESTAMP
+            WHERE use_login = :login";
+
+        try {
+            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                if ($this->_req->bindValue(':login', $request['login'], PDO::PARAM_STR)) {
+                    if ($this->_req->execute()) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+
+    }
+
 }
