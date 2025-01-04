@@ -10,7 +10,7 @@ class MaintenanceModel extends CoreModel
      * @param $id
      * @return false|string|void
      */
-    public function createAction($request){
+    public function createMaintenance($request){
         $sql = "INSERT INTO actions (act_name, act_description, act_price, act_date, car_id ) VALUES (:name, :description, :price,:date, :id)";
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
@@ -26,7 +26,7 @@ class MaintenanceModel extends CoreModel
         }
     }
 
-    public function deleteAction($id)
+    public function deleteMaintenance($id)
     {
         $sql = "DELETE FROM actions WHERE act_id = :id";
         try {

@@ -56,9 +56,9 @@ class UserController
                         header('Location: ?adduser=error');
                         exit();
                     }
-                    $user = $model->createUser($request);
 
                 }
+                $user = $model->createUser($request);
             }
             if ($user) {
                 header('Location: ?adduser=success');
@@ -84,7 +84,7 @@ class UserController
      * @param $request
      * @return void
      */
-    public function connexion($request)
+    public function connexion($request): void
     {
         try {
 
@@ -116,7 +116,7 @@ class UserController
     /**
      * @return void
      */
-    public function logout()
+    public function logout(): void
     {
         try {
             session_unset();
@@ -132,7 +132,7 @@ class UserController
      * @param $id
      * @return void
      */
-    public function remove($id)
+    public function remove($id): void
     {
         try {
             $model = new UserModel();
@@ -154,7 +154,7 @@ class UserController
      * @param $id
      * @return void
      */
-    public function profile($id)
+    public function profile($id): void
     {
         try {
             $userModel = new UserModel();
@@ -176,4 +176,34 @@ class UserController
             echo $e->getMessage();
         }
     }
+
+    /**
+     * @param $request
+     * @return void
+     */
+    public function update($request): void
+    {
+        try {
+            $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            
+            if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login'])) {
+                $userModel = new UserModel();
+                $update = $userModel->updateUser($request);
+                
+                if ($update) {
+                    $_SESSION['user']['firstname'] = $request['firstname'];
+                    $_SESSION['user']['lastname'] = $request['lastname'];
+                    $_SESSION['user']['login'] = $request['login'];
+                    
+                    header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=success');
+                    exit();
+                }
+            }
+            header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=error');
+            exit();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
 }

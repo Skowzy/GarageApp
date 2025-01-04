@@ -1,5 +1,5 @@
 <!-- Main content -->
-<main class="container mx-auto px-4 py-8">
+<main class="container mx-auto px-4 py-8 min-h-screen">
     <h1 class="text-3xl font-bold mb-6 text-blue-900">Liste des utilisateurs</h1>
 
     <!-- Search and Add User -->

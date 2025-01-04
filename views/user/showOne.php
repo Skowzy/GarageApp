@@ -1,4 +1,4 @@
-<main class="container mx-auto px-4 py-8">
+<main class="container mx-auto px-4 py-8 min-h-screen">
     <h1 class="text-3xl font-bold mb-8 text-blue-900">Mon Profil</h1>
 
     <div class="bg-white shadow-md rounded-lg overflow-hidden mb-8">
@@ -28,25 +28,30 @@
             </button>
         </div>
     </div>
-    <?php if(isset($userCars)) : ?>
     <h2 class="text-2xl font-bold mb-4 text-blue-900">Mes Véhicules</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-        <?php foreach ($userCars as $car): ?>
-            <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2"><?= $car->getBrand() . ' ' . $car->getModel(); ?></h3>
-                    <p class="text-gray-600 mb-4">Année : <?= $car->getYear(); ?></p>
-                    <div class="flex justify-between items-center">
-                        <a href="?ctrl=car&action=showOne&id=<?= $car->getId(); ?>"
-                           class="text-blue-900 hover:underline">Voir détails</a>
-                        <!--                        <span class="text-sm text-gray-500">-->
-                        <?php //= $car->getLastMaintenanceDate(); ?><!--</span>-->
+    <?php if (isset($userCars)) : ?>
+        <div class="grid md:grid-cols-3 gap-6">
+            <?php foreach ($userCars as $car): ?>
+                <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2"><?= $car->getBrand() . ' ' . $car->getModel(); ?></h3>
+                        <p class="text-gray-600 mb-4">Année : <?= $car->getYear(); ?></p>
+                        <div class="flex justify-between items-center">
+                            <a href="?ctrl=car&action=showOne&id=<?= $car->getId(); ?>"
+                               class="text-blue-900 hover:underline">Voir détails</a>
+                            <!--                        <span class="text-sm text-gray-500">-->
+                            <?php //= $car->getLastMaintenanceDate(); ?><!--</span>-->
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-    <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Aucun véhicule enregistré</h3>
+        </div>
+        <?php endif; ?>
 
 </main>
 
@@ -61,38 +66,39 @@
                     Modifier mes informations
                 </h3>
                 <div class="mt-2">
-                    <form id="editForm" class="space-y-4">
+                    <form method="post" action="?ctrl=user&action=update" id="editForm" class="space-y-4">
+                        <input type="hidden" name="id" value="<?= $user->getId() ?>">
                         <div>
-                            <label for="firstName" class="block text-sm font-medium text-gray-700">Prénom</label>
-                            <input type="text" id="firstName" name="firstName"
+                            <label for="firstname" class="block text-sm font-medium text-gray-700">Prénom</label>
+                            <input type="text" id="firstname" name="firstname"
                                    value="<?= $user->getFirstName(); ?>"
                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
                         <div>
-                            <label for="lastName" class="block text-sm font-medium text-gray-700">Nom</label>
-                            <input type="text" id="lastName" name="lastName" value="<?= $user->getLastName(); ?>"
+                            <label for="lastname" class="block text-sm font-medium text-gray-700">Nom</label>
+                            <input type="text" id="lastname" name="lastname" value="<?= $user->getLastName(); ?>"
                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" id="email" name="email" value="<?= $user->getLogin(); ?>"
+                            <label for="login" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="login" name="login" value="<?= $user->getLogin(); ?>"
                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                            <button type="submit"
+                                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                Sauvegarder
+                            </button>
+                            <button type="button"
+                                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                    onclick="closeEditModal()">
+                                Annuler
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="button"
-                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                        onclick="submitEditForm()">
-                    Sauvegarder
-                </button>
-                <button type="button"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                        onclick="closeEditModal()">
-                    Annuler
-                </button>
-            </div>
+
         </div>
     </div>
 </div>
@@ -107,9 +113,4 @@
         document.getElementById('editModal').classList.add('hidden');
     }
 
-    function submitEditForm() {
-        // Ici, vous devriez ajouter la logique pour envoyer les données du formulaire au serveur
-        // Pour cet exemple, nous allons simplement fermer la modale
-        closeEditModal();
-    }
 </script>

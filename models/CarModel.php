@@ -7,7 +7,6 @@ class CarModel extends CoreModel
 
     /**
      * @param $request
-     * @param $id
      * @return false|string
      */
     public function createCar($request)
@@ -28,13 +27,17 @@ class CarModel extends CoreModel
                     return $this->getDb()->lastInsertId();
                 }
             }
-            return false; // Retour explicite en cas d'échec
+            return false;
         } catch (PDOException $e) {
             echo "Erreur SQL : " . $e->getMessage();
             return false;
         }
     }
 
+    /**
+     * @param $id
+     * @return array|false|void
+     */
     public function viewCars($id)
     {
         $sql = "SELECT car_id, car_brand, car_model, car_year,car_kilometers, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
@@ -60,6 +63,9 @@ class CarModel extends CoreModel
         }
     }
 
+    /**
+     * @return array|false|void
+     */
     public function listCars()
     {
         $sql = "
@@ -76,9 +82,14 @@ class CarModel extends CoreModel
             return false;
         } catch (PDOException $e) {
             die($e->getMessage());
+
         }
     }
 
+    /**
+     * @param $id
+     * @return bool|void
+     */
     public function deleteCar($id)
     {
         $sql = "DELETE FROM car WHERE car_id = :id";
@@ -96,6 +107,10 @@ class CarModel extends CoreModel
         }
     }
 
+    /**
+     * @param $id
+     * @return false|mixed|void
+     */
     public function readOne($id)
     {
         $sql = "SELECT car_id, car_model, car_brand, car_year, car_kilometers, car_fuelType, car_licensePlate, car_notes 
@@ -115,9 +130,14 @@ class CarModel extends CoreModel
             }
         } catch (PDOException $e) {
             die ($e->getMessage());
+
         }
     }
 
+    /**
+     * @param $request
+     * @return bool|void
+     */
     public function updateCar($request)
     {
         $sql = "UPDATE car

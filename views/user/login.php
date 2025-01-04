@@ -1,4 +1,4 @@
-<main class="container mx-auto px-4 py-8">
+<main class="container mx-auto px-4 py-8 min-h-screen">
     <section class="max-w-md mx-auto">
         <h1 class="text-3xl font-bold text-center mb-8 text-blue-900">Connexion</h1>
         <div class="bg-white p-6 rounded-lg shadow">

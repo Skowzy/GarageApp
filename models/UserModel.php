@@ -23,6 +23,7 @@ class UserModel extends CoreModel
                     }
                 }
             }
+            return false;
         } catch (PDOException $e) {
             die($e->getMessage());
         }
@@ -43,6 +44,7 @@ class UserModel extends CoreModel
                     }
                 }
             }
+            return false;
         } catch (PDOException $e) {
             die($e->getMessage());
         }
@@ -107,7 +109,7 @@ class UserModel extends CoreModel
      */
     public function readOne($id)
     {
-        $sql = "SELECT * FROM user_ WHERE use_id = :id ";
+        $sql = "SELECT use_id, use_firstname, use_lastname, use_login FROM user_ WHERE use_id = :id ";
 
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
@@ -118,10 +120,35 @@ class UserModel extends CoreModel
                     }
                 }
             }
-        }catch (PDOException $e) {
+            return false;
+        } catch (PDOException $e) {
             die ($e->getMessage());
         }
     }
 
+    /**
+     * @param $request
+     * @return bool|void
+     */
+    public function updateUser($request)
+    {
+        $sql = "UPDATE user_
+                SET use_firstname = :firstname, use_lastname = :lastname, use_login = :login
+                WHERE use_id = :id";
 
+        try {
+            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                $this->_req->bindValue(':id', $request['id'], PDO::PARAM_INT);
+                $this->_req->bindValue(':firstname', $request['firstname'], PDO::PARAM_STR);
+                $this->_req->bindValue(':lastname', $request['lastname'], PDO::PARAM_STR);
+                $this->_req->bindValue(':login', $request['login'], PDO::PARAM_STR);
+                if ($this->_req->execute()) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
 }

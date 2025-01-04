@@ -1,4 +1,4 @@
-<main class="container mx-auto px-4 py-8 h-screen">
+<main class="container mx-auto px-4 py-8 min-h-screen">
     <h1 class="text-3xl font-bold mb-8 text-blue-900">Mon Garage</h1>
     <?php if (isset($cars)) : ?>
 
@@ -17,6 +17,9 @@
                             <i class="fas fa-wrench mr-1"></i> Dernier entretien :
                         </span>
                     </div>
+                <div class="mt-4">
+                    <p>Propriétaire du véhicule : <a href="?ctrl=user&action=profile&id=<?=$user->getId()?>"><?=$car->getFullname()?></a></p>
+                </div>
                 </div>
                 <div class="bg-gray-100 px-6 py-4">
                     <a href="?ctrl=actions&action=create&car_id=" class="text-blue-600 hover:text-blue-800">
