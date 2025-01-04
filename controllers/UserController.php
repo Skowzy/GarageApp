@@ -8,19 +8,24 @@ class UserController
      */
     public function showAll()
     {
-        try {
-            $model = new UserModel();
-            $datas = $model->listUsers();
+        if($_SESSION['role'] == 1 || $_SESSION['power'] >= 100){
+            try {
+                $model = new UserModel();
+                $datas = $model->listUsers();
 
-            foreach ($datas as $data) {
-                $users[] = new User($data);
-            }
+                foreach ($datas as $data) {
+                    $users[] = new User($data);
+                }
 
 //            dump($users);
-            require "views/user/showAll.php";
-        } catch (Exception $e) {
-            echo $e->getMessage();
+                require "views/user/showAll.php";
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }else{
+            header("location: ?ctrl=home&action=index&message=403");
         }
+
     }
 
 
@@ -92,9 +97,9 @@ class UserController
             if (!empty($request['login']) && !empty($request['password'])) {
                 $model = new UserModel();
                 $login = $model->login($request);
-                $lastLogin = $model->lastLogin($request);
             }
             if ($login) {
+                $lastLogin = $model->lastLogin($request);
                 $_SESSION['user'] = [
                     'id' => $login['use_id'],
                     'firstname' => $login['use_firstname'],
