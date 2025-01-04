@@ -10,6 +10,7 @@ class User extends CoreEntity
     private ?string $password;
     private int $role;
     private string $label;
+    private ?string $lastLogin;
 
     /**
      * @return int
@@ -127,6 +128,22 @@ class User extends CoreEntity
     public function getLabel(): string
     {
         return $this->label;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastLogin()
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * @param mixed $lastLogin
+     */
+    public function setLastLogin($lastLogin): void
+    {
+        $this->lastLogin = $lastLogin;
     }
 
 }

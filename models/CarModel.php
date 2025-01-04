@@ -12,7 +12,8 @@ class CarModel extends CoreModel
      */
     public function createCar($request)
     {
-        $sql = "INSERT INTO car (car_brand, car_model, car_year, use_id) VALUES (:brand, :model, :year, :id)";
+        $sql = "INSERT INTO car (car_brand, car_model, car_year, use_id) 
+                VALUES (:brand, :model, :year, :id)";
 
         try {
             $this->_req = $this->getDb()->prepare($sql);
@@ -36,10 +37,11 @@ class CarModel extends CoreModel
 
     public function viewCars($id)
     {
-        $sql = "SELECT car_id, car_brand, car_model, car_year, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
+        $sql = "SELECT car_id, car_brand, car_model, car_year,car_kilometers, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
                 FROM car
                 JOIN user_ ON car.use_id = user_.use_id
-                WHERE car.use_id = :id";"
+                WHERE car.use_id = :id";
+        "
                 ";
         try {
             if ($this->_req = $this->getDb()->prepare($sql)) {
@@ -48,6 +50,9 @@ class CarModel extends CoreModel
                         $datas = $this->_req->fetchAll(PDO::FETCH_ASSOC);
                         return $datas;
                     }
+
+                } else {
+                    return false;
                 }
             }
         } catch (PDOException $e) {
@@ -83,6 +88,7 @@ class CarModel extends CoreModel
                     if ($this->_req->execute()) {
                         return true;
                     }
+                    return false;
                 }
             }
         } catch (PDOException $e) {
@@ -92,7 +98,9 @@ class CarModel extends CoreModel
 
     public function readOne($id)
     {
-        $sql = "SELECT * FROM car WHERE car_id = :id ";
+        $sql = "SELECT car_id, car_model, car_brand, car_year, car_kilometers, car_fuelType, car_licensePlate, car_notes 
+                FROM car 
+                WHERE car_id = :id ";
 
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
@@ -100,10 +108,38 @@ class CarModel extends CoreModel
                     if ($this->_req->execute()) {
                         $data = $this->_req->fetch(PDO::FETCH_ASSOC);
                         return $data;
+                    } else {
+                        return false;
                     }
                 }
             }
-        }catch (PDOException $e) {
+        } catch (PDOException $e) {
+            die ($e->getMessage());
+        }
+    }
+
+    public function updateCar($request)
+    {
+        $sql = "UPDATE car
+                SET car_brand = :brand, car_model = :model, car_year = :year, car_kilometers = :kilometers, car_fuelType = :fuelType,car_licensePlate = :licensePlate, car_notes = :notes
+                WHERE car_id = :id";
+
+        try {
+            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                $this->_req->bindValue(':brand', $request['brand'], PDO::PARAM_STR);
+                $this->_req->bindValue(':model', $request['model'], PDO::PARAM_STR);
+                $this->_req->bindValue(':year', $request['year'], PDO::PARAM_INT);
+                $this->_req->bindValue(':kilometers', $request['kilometers'], PDO::PARAM_INT);
+                $this->_req->bindValue(':fuelType', $request['fuelType'], PDO::PARAM_STR);
+                $this->_req->bindValue(':licensePlate', $request['licensePlate'], PDO::PARAM_STR);
+                $this->_req->bindValue(':notes', $request['notes'], PDO::PARAM_STR);
+                $this->_req->bindValue(':id', $request['id'], PDO::PARAM_INT);
+                if ($this->_req->execute()) {
+                    return true;
+                }
+                return false;
+            }
+        } catch (PDOException $e) {
             die ($e->getMessage());
         }
     }

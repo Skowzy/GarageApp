@@ -7,8 +7,10 @@ class Car extends CoreEntity
     private string $brand;
     private int $year;
     private ?int $kilometers;
+    private ?string $fuelType;
+    private ?string $licensePlate;
+    private ?string $notes;
     private int $use_id;
-
     private string $fullname;
 
     /**
@@ -52,9 +54,9 @@ class Car extends CoreEntity
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getKilometers(): int
+    public function getKilometers(): ?int
     {
         return $this->kilometers;
     }
@@ -104,10 +106,10 @@ class Car extends CoreEntity
     }
 
     /**
-     * @param int $kilometers
+     * @param int | null $kilometers
      * @return void
      */
-    public function setKilometers(int $kilometers): void
+    public function setKilometers(?int $kilometers): void
     {
         $this->kilometers = $kilometers;
     }
@@ -129,4 +131,51 @@ class Car extends CoreEntity
         $this->fullname = $fullname;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getFuelType(): ?string
+    {
+        return $this->fuelType;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLicensePlate(): ?string
+    {
+        return $this->licensePlate;
+    }
+
+    /**
+     * @param string|null $fuelType
+     */
+    public function setFuelType(?string $fuelType): void
+    {
+        $this->fuelType = $fuelType;
+    }
+
+    /**
+     * @param string|null $licensePlate
+     */
+    public function setLicensePlate(?string $licensePlate): void
+    {
+        $this->licensePlate = $licensePlate;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param string|null $notes
+     */
+    public function setNotes(?string $notes): void
+    {
+        $this->notes = $notes;
+    }
 }

@@ -160,7 +160,18 @@ class UserController
             $userModel = new UserModel();
             $data = $userModel->readOne($id);
             $user = new User($data);
+
+            $carModel = new CarModel();
+            $infos = $carModel->viewCars($id);
+
+            foreach ($infos as $info) {
+                $userCars[] = new Car($info);
+            }
+
+
             require "views/user/showOne.php";
+
+
         } catch (Exception $e) {
             echo $e->getMessage();
         }
