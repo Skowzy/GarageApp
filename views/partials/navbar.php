@@ -10,7 +10,7 @@
                 <?php endif; ?>
                 <?php if (isset($_SESSION['user']) && $_SESSION['user']['power'] >= 50) : ?>
                 <a href="?ctrl=car&action=showall&id=<?=$_SESSION['user']['id']?>" class="px-3 py-2 rounded hover:bg-blue-800">Mon Garage</a>
-                <a href="?ctrl=maintenance&action=showall" class="px-3 py-2 rounded hover:bg-blue-800">Entretiens</a>
+                <a href="?ctrl=maintenance&action=showall&id=<?=$_SESSION['user']['id']?>" class="px-3 py-2 rounded hover:bg-blue-800">Entretiens</a>
 <!--                <a href="#" class="px-3 py-2 rounded hover:bg-blue-800">Notifications</a>-->
                 <a href="?ctrl=user&action=profile&id=<?=$_SESSION['user']['id']?>" class="px-3 py-2 bg-white text-blue-900 rounded ml-2 hover:bg-gray-200">
                     <i class="fas fa-user mr-2"></i>Mon compte

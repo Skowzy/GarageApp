@@ -6,7 +6,8 @@
         </h1>
 
         <a href="?ctrl=car&action=showall&id=<?= $_SESSION['user']['id'] ?>"
-           class="bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition duration-300 max-h-[40px]">Retour à la
+           class="bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition duration-300 max-h-[40px]">Retour
+            à la
             liste</a>
     </div>
 
@@ -23,60 +24,75 @@
                         <li><strong>Immatriculation :</strong> <?= $car->getLicensePlate() ?? "Non renseigné" ?></li>
                         <li><strong>Carburant :</strong> <?= $car->getFuelType() ?? "Non renseigné" ?></li>
                     </ul>
+                    <?php if(null !== $car->getNotes()) :?>
                     <h2 class="text-2xl font-semibold mt-4 mb-4 text-blue-900">Informations supplémentaires</h2>
                     <p><?= $car->getNotes() ?></p>
+                    <?php endif;?>
                 </div>
                 <!--                <div>-->
                 <!--                    <h2 class="text-2xl font-semibold mb-4 text-blue-900">Dernier entretien</h2>-->
-                <!--                    <p class="mb-2"><strong>Date :</strong> -->
-                <?php //echo $car->getLastMaintenanceDate(); ?><!--</p>-->
-                <!--                    <p class="mb-2"><strong>Type :</strong> -->
-                <?php //echo $car->getLastMaintenanceType(); ?><!--</p>-->
-                <!--                    <p><strong>Kilométrage :</strong> -->
-                <?php //echo $car->getLastMaintenanceMileage(); ?><!-- km</p>-->
+                <!--                    <p class="mb-2"><strong>Date :</strong>-->
+                <!--                        --><?php //= $car->getDate(); ?><!--</p>-->
+                <!--                    <p class="mb-2"><strong>Type :</strong>-->
+                <!--                        --><?php //= $car->getName(); ?><!--</p>-->
+                <!--                    <p><strong>Kilométrage :</strong>-->
+                <!--                        --><?php //= $car->getKilometers(); ?><!-- km</p>-->
                 <!--                </div>-->
             </div>
         </div>
     </div>
 
-    <!--    <div class="grid md:grid-cols-2 gap-6">-->
-    <!--        <div class="bg-white shadow-md rounded-lg overflow-hidden">-->
-    <!--            <div class="p-6">-->
-    <!--                <h2 class="text-2xl font-semibold mb-4 text-blue-900">Prochains entretiens</h2>-->
-    <!--                <ul class="space-y-4">-->
-    <!--                    --><?php //foreach ($upcomingMaintenances as $maintenance): ?>
-    <!--                        <li class="flex justify-between items-center">-->
-    <!--                            <span>--><?php //echo $maintenance->getType(); ?><!--</span>-->
-    <!--                            <span class="text-gray-600">-->
-    <?php //echo $maintenance->getDueDate(); ?><!--</span>-->
-    <!--                        </li>-->
-    <!--                    --><?php //endforeach; ?>
-    <!--                </ul>-->
-    <!--                <a href="?ctrl=actions&action=create&car_id=-->
+    <!--        <div class="grid md:grid-cols-2 gap-6">-->
+    <!--            <div class="bg-white shadow-md rounded-lg overflow-hidden">-->
+    <!--                <div class="p-6">-->
+    <!--                    <h2 class="text-2xl font-semibold mb-4 text-blue-900">Prochains entretiens</h2>-->
+    <!--                    <ul class="space-y-4">-->
+    <!--                        --><?php //foreach ($maintenances as $maintenance): ?>
+    <!--                            <li class="flex justify-between items-center">-->
+    <!--                                <span>--><?php //echo $maintenance->getType(); ?><!--</span>-->
+    <!--                                <span class="text-gray-600">-->
+    <!--    --><?php //echo $maintenance->getDueDate(); ?><!--</span>-->
+    <!--                            </li>-->
+    <!--                        --><?php //endforeach; ?>
+    <!--                    </ul>-->
+    <!--                    <a href="?ctrl=actions&action=create&car_id=-->
+    <!--    -->
     <?php //echo $car->getId(); ?><!--" class="mt-4 inline-block bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition duration-300">-->
-    <!--                    Planifier un entretien-->
-    <!--                </a>-->
+    <!--                        Planifier un entretien-->
+    <!--                    </a>-->
+    <!--                </div>-->
     <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="bg-white shadow-md rounded-lg overflow-hidden">-->
-    <!--            <div class="p-6">-->
-    <!--                <h2 class="text-2xl font-semibold mb-4 text-blue-900">Historique des entretiens</h2>-->
-    <!--                <ul class="space-y-4">-->
-    <!--                    --><?php //foreach ($maintenanceHistory as $maintenance): ?>
-    <!--                        <li class="flex justify-between items-center">-->
-    <!--                            <span>--><?php //echo $maintenance->getType(); ?><!--</span>-->
-    <!--                            <span class="text-gray-600">-->
-    <?php //echo $maintenance->getDate(); ?><!--</span>-->
-    <!--                        </li>-->
-    <!--                    --><?php //endforeach; ?>
-    <!--                </ul>-->
-    <!--                <a href="?ctrl=actions&action=history&car_id=-->
-    <?php //echo $car->getId(); ?><!--" class="mt-4 inline-block text-blue-900 hover:underline">-->
-    <!--                    Voir l'historique complet-->
-    <!--                </a>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-900">Historique des entretiens</h2>
+            <?php if(isset($maintenances)) :?>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                    <tr class="bg-gray-100">
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Nom</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Description</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Prix</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($maintenances as $maintenance): ?>
+                        <tr class="border-b border-gray-200 hover:bg-gray-50">
+                            <td class="px-4 py-2"><?= $maintenance->getName(); ?></td>
+                            <td class="px-4 py-2"><?= $maintenance->getDescription(); ?></td>
+                            <td class="px-4 py-2"><?= $maintenance->getPrice(); ?>€</td>
+                            <td class="px-4 py-2 text-gray-600"><?= $maintenance->getDate(); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php else :?>
+        <p class="">Aucun entretien enregistré pour le moment</p>
+        <?php endif;?>
+        </div>
+    </div>
 
     <div class="mt-8 flex justify-between">
         <a href="?ctrl=car&action=edit&id=<?= $car->getId(); ?>"

@@ -77,10 +77,17 @@ class CarController
     public function showOne($id) : void
     {
         try {
-            $model = new carModel();
-            $datas = $model->readOne($id);
+            $carModel = new carModel();
+            $datas = $carModel->readOne($id);
             $car = new Car($datas);
-            require "views/car/showOne.php";
+
+            $maintenanceModel = new MaintenanceModel();
+            $infos = $maintenanceModel->readAll($car->getId());
+            foreach ($infos as $info) {
+                $maintenances[] = new Maintenance($info);
+            }
+
+            require_once "views/car/showOne.php";
         } catch (Exception $e) {
             echo $e->getMessage();
         }

@@ -9,7 +9,8 @@ class MaintenanceModel extends CoreModel
      * @param $request
      * @return false|string|void
      */
-    public function createMaintenance($request){
+    public function createMaintenance($request)
+    {
         $sql = "INSERT INTO maintenance (mai_name, mai_description, mai_price, mai_date, car_id ) VALUES (:name, :description, :price,:date, :id)";
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
@@ -54,9 +55,34 @@ class MaintenanceModel extends CoreModel
                     }
                 }
             }
-        }catch (PDOException $e) {
+        } catch (PDOException $e) {
             die ($e->getMessage());
         }
+    }
+
+    public function readAll($id)
+    {
+        $sql = "SELECT mai_id,mai_name, mai_description, mai_photo, mai_price, mai_date, m.car_id AS mai_carId, car_brand, car_model, car_kilometers
+                FROM `maintenance` m
+                JOIN car c ON m.car_id = c.car_id
+                JOIN user_ u ON c.use_id = u.use_id
+                WHERE u.use_id = :id OR m.car_id = :id";
+
+        try {
+            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                if ($this->_req->bindValue(':id', $id, PDO::PARAM_INT)) {
+                    if ($this->_req->execute()) {
+                        $data = $this->_req->fetchAll(PDO::FETCH_ASSOC);
+                        return $data;
+                    }
+                }
+            }
+            return false;
+
+        } catch (PDOException $e) {
+            die ($e->getMessage());
+        }
+
     }
 
 }
