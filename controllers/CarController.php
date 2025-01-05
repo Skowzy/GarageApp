@@ -8,9 +8,9 @@ class CarController
      */
     public function create()
     {
-        try{
+        try {
             require_once 'views/car/addOne.php';
-        }catch (Exception $e){
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
@@ -19,7 +19,7 @@ class CarController
      * @param $request
      * @return void
      */
-    public function store($request) : void
+    public function store($request): void
     {
         $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -28,15 +28,15 @@ class CarController
 
             $model = new CarModel();
 
-            if(!empty($request['brand']) && !empty($request['model']) && !empty($request['year'])){
-            $car = $model->createCar($request);
+            if (!empty($request['brand']) && !empty($request['model']) && !empty($request['year'])) {
+                $car = $model->createCar($request);
             }
 
             if ($car) {
-                header('Location: ?ctrl=car&action=showAll&id=' . $_SESSION['user']['id'] .'&addcar=success');
+                header('Location: ?ctrl=car&action=showAll&id=' . $_SESSION['user']['id'] . '&addcar=success');
                 exit();
             } else {
-                header('Location: ?ctrl=car&action=showAll&id=' . $_SESSION['user']['id'] .'&addcar=error');
+                header('Location: ?ctrl=car&action=showAll&id=' . $_SESSION['user']['id'] . '&addcar=error');
                 exit();
             }
 
@@ -49,21 +49,31 @@ class CarController
      * @param $id
      * @return void
      */
-    public function showAll($id) : void
+    public function showAll($id): void
     {
         try {
             $carModel = new carModel();
             $datas = $carModel->viewCars($id);
+            $cars = [];
+            $lastMaintenances = [];
 
             foreach ($datas as $data) {
                 $cars[] = new Car($data);
             }
-
+            
             $userModel = new UserModel();
             $info = $userModel->readOne($id);
             $user = new User($info);
 
-            require "views/car/showAll.php";
+            $maintenanceModel = new MaintenanceModel();
+            foreach ($cars as $car) {
+                $maintenanceData = $maintenanceModel->getLastMaintenance($car->getId());
+                if ($maintenanceData) {
+                    $lastMaintenances[$car->getId()] = new Maintenance($maintenanceData);
+                }
+            }
+//dump($lastMaintenances);
+            require_once "views/car/showAll.php";
 
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -74,7 +84,7 @@ class CarController
      * @param $id
      * @return void
      */
-    public function showOne($id) : void
+    public function showOne($id): void
     {
         try {
             $carModel = new carModel();
@@ -97,7 +107,7 @@ class CarController
      * @param $id
      * @return void
      */
-    public function remove($id) : void
+    public function remove($id): void
     {
         try {
             $model = new carModel();
@@ -119,7 +129,7 @@ class CarController
      * @param $id
      * @return void
      */
-    public function edit($id) : void
+    public function edit($id): void
     {
         try {
             $model = new carModel();
@@ -141,7 +151,7 @@ class CarController
      * @param $request
      * @return void
      */
-    public function update($request) : void
+    public function update($request): void
     {
         $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
         try {

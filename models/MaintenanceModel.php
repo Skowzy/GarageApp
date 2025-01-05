@@ -26,12 +26,12 @@ class MaintenanceModel extends CoreModel
         }
     }
 
-    public function deleteMaintenance($id)
+    public function deleteMaintenance($request)
     {
         $sql = "DELETE FROM maintenance WHERE mai_id = :id";
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
-                if ($this->_req->bindValue(':id', $id, PDO::PARAM_INT)) {
+                if ($this->_req->bindValue(':id', $request['id'], PDO::PARAM_INT)) {
                     if ($this->_req->execute()) {
                         return true;
                     }
@@ -44,7 +44,7 @@ class MaintenanceModel extends CoreModel
 
     public function readOne($id)
     {
-        $sql = "SELECT * FROM maintenance WHERE mai_id = :id ";
+        $sql = "SELECT mai_id,mai_name, mai_description, mai_photo, mai_price, mai_date, m.car_id AS mai_carId, car_brand, car_model, car_kilometers FROM maintenance m  JOIN car c ON m.car_id = c.car_id WHERE mai_id = :id ";
 
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
@@ -83,6 +83,54 @@ class MaintenanceModel extends CoreModel
             die ($e->getMessage());
         }
 
+    }
+
+    public function update($request)
+    {
+        $sql = "UPDATE maintenance
+        SET mai_name = :name, mai_description = :description, mai_photo = :photo, mai_price = :price, mai_date = :date
+        WHERE mai_id = :id";
+
+        try {
+            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                $this->_req->bindValue(':id', $request['id'], PDO::PARAM_INT);
+                $this->_req->bindValue(':name', $request['name'], PDO::PARAM_STR);
+                $this->_req->bindValue(':description', $request['description'], PDO::PARAM_STR);
+                $this->_req->bindValue(':photo', $request['photo'], PDO::PARAM_STR);
+                $this->_req->bindValue(':price', $request['price'], PDO::PARAM_INT);
+                $this->_req->bindValue(':date', $request['date'], PDO::PARAM_STR);
+                if ($this->_req->execute()) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (PDOException $e) {
+            die ($e->getMessage());
+        }
+    }
+
+    public function getLastMaintenance($id)
+    {
+        $sql = "SELECT mai_id,mai_name, mai_description, mai_photo, mai_price, mai_date, m.car_id AS mai_carId, car_brand, car_model, car_kilometers
+            FROM maintenance m 
+            JOIN car c 
+            ON m.car_id = c.car_id 
+            WHERE c.car_id = :id 
+            ORDER BY mai_date 
+            DESC LIMIT 1";
+
+        try {
+            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                if ($this->_req->bindValue(':id', $id, PDO::PARAM_INT)) {
+                    if ($this->_req->execute()) {
+                        $data = $this->_req->fetch(PDO::FETCH_ASSOC);
+                        return $data;
+                    }
+                }
+            }
+        } catch (PDOException $e) {
+            die ($e->getMessage());
+        }
     }
 
 }

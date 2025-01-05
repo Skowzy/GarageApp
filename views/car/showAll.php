@@ -15,11 +15,19 @@
                         </a>
                         <span class="text-sm text-gray-500">
                             <i class="fas fa-wrench mr-1"></i> Dernier entretien :
+                            <?php if (isset($lastMaintenances[$car->getId()])) {
+                                echo $lastMaintenances[$car->getId()]->getName();
+                            } else {
+                                echo "Aucun entretien";
+                            }
+                            ?>
                         </span>
                     </div>
-                <div class="mt-4">
-                    <p>Propriétaire du véhicule : <a href="?ctrl=user&action=profile&id=<?=$user->getId()?>"><?=$car->getFullname()?></a></p>
-                </div>
+                    <div class="mt-4">
+                        <p>Propriétaire du véhicule : <a
+                                    href="?ctrl=user&action=profile&id=<?= $user->getId() ?>"><?= $car->getFullname() ?></a>
+                        </p>
+                    </div>
                 </div>
                 <div class="bg-gray-100 px-6 py-4">
                     <a href="?ctrl=actions&action=create&car_id=" class="text-blue-600 hover:text-blue-800">
