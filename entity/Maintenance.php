@@ -3,11 +3,11 @@
 class Maintenance extends CoreEntity
 {
     private int $id;
-    private string $name;
-    private string $description;
-    private int $price;
-    private int $date;
-    private int $car_fk;
+    private ?string $name;
+    private ?string $description;
+    private ?int $price;
+    private ?int $date;
+    private int $car_id;
 
     /**
      * @return int
@@ -20,7 +20,7 @@ class Maintenance extends CoreEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -28,7 +28,7 @@ class Maintenance extends CoreEntity
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -36,14 +36,14 @@ class Maintenance extends CoreEntity
     /**
      * @return int
      */
-    public function getPrice(): int
+    public function getPrice(): ?int
     {
         return $this->price;
     }
     /**
      * @return int
      */
-    public function getDate(): int
+    public function getDate(): ?int
     {
         return $this->date;
     }
@@ -51,15 +51,15 @@ class Maintenance extends CoreEntity
     /**
      * @return int
      */
-    public function getCarFk(): int
+    public function getCarId(): int
     {
-        return $this->car_fk;
+        return $this->car_id;
     }
 
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
@@ -67,7 +67,7 @@ class Maintenance extends CoreEntity
     /**
      * @param int $id
      */
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
@@ -76,7 +76,7 @@ class Maintenance extends CoreEntity
     /**
      * @param string $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
@@ -84,7 +84,7 @@ class Maintenance extends CoreEntity
     /**
      * @param int $date
      */
-    public function setDate(int $date): void
+    public function setDate(?int $date): void
     {
         $this->date = $date;
     }
@@ -92,15 +92,15 @@ class Maintenance extends CoreEntity
     /**
      * @param int $car_fk
      */
-    public function setCarFk(int $car_fk): void
+    public function setCarFk(int $car_id): void
     {
-        $this->car_fk = $car_fk;
+        $this->$car_id = $car_id;
     }
 
     /**
      * @param int $price
      */
-    public function setPrice(int $price): void
+    public function setPrice(?int $price): void
     {
         $this->price = $price;
     }

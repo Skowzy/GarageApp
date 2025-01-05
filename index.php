@@ -7,7 +7,7 @@ require_once 'lib/autoloader.php';
 require_once 'views/partials/head.php';
 require_once 'views/partials/navbar.php';
 
-dump($_SESSION['user']);
+//dump($_SESSION['user']);
 
 $ctrl = 'HomeController';
 if (isset($_GET['ctrl'])) {

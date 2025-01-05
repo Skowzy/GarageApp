@@ -11,8 +11,8 @@ class CarModel extends CoreModel
      */
     public function createCar($request)
     {
-        $sql = "INSERT INTO car (car_brand, car_model, car_year, use_id) 
-                VALUES (:brand, :model, :year, :id)";
+        $sql = "INSERT INTO car (car_brand, car_model, car_year,car_kilometers,car_fuelType,car_licensePlate, use_id) 
+                VALUES (:brand, :model, :year, :kilometers, :fuelType, :licensePlate, :id )";
 
         try {
             $this->_req = $this->getDb()->prepare($sql);
@@ -21,6 +21,9 @@ class CarModel extends CoreModel
                 $this->_req->bindValue(':brand', $request['brand'], PDO::PARAM_STR);
                 $this->_req->bindValue(':model', $request['model'], PDO::PARAM_STR);
                 $this->_req->bindValue(':year', $request['year'], PDO::PARAM_INT);
+                $this->_req->bindValue(':kilometers', $request['kilometers'], PDO::PARAM_INT);
+                $this->_req->bindValue(':fuelType', $request['fuelType'], PDO::PARAM_STR);
+                $this->_req->bindValue(':licensePlate', $request['licensePlate'], PDO::PARAM_STR);
                 $this->_req->bindValue(':id', $request['id'], PDO::PARAM_INT);
 
                 if ($this->_req->execute()) {

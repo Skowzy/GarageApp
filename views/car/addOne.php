@@ -2,6 +2,7 @@
     <h1 class="text-3xl font-bold mb-8 text-blue-900">Ajouter un véhicule</h1>
 
     <form action="?ctrl=car&action=store" method="POST" class="space-y-6">
+        <input type="hidden" name="id" value="<?=$_SESSION['user']['id']?>">
         <div class="grid md:grid-cols-2 gap-6">
             <div>
                 <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">Marque</label>

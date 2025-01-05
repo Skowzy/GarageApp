@@ -7,11 +7,10 @@ class MaintenanceModel extends CoreModel
 
     /**
      * @param $request
-     * @param $id
      * @return false|string|void
      */
     public function createMaintenance($request){
-        $sql = "INSERT INTO actions (act_name, act_description, act_price, act_date, car_id ) VALUES (:name, :description, :price,:date, :id)";
+        $sql = "INSERT INTO maintenance (mai_name, mai_description, mai_price, mai_date, car_id ) VALUES (:name, :description, :price,:date, :id)";
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
                 if (($this->_req->bindValue(':name', $request['name']) && $this->_req->bindValue(':description', $request['description']) && $this->_req->bindValue(':price', $request['price']) && $this->_req->bindValue(':date', $request['date'])) && $this->_req->bindValue(':id', $request['id'])) {
@@ -28,7 +27,7 @@ class MaintenanceModel extends CoreModel
 
     public function deleteMaintenance($id)
     {
-        $sql = "DELETE FROM actions WHERE act_id = :id";
+        $sql = "DELETE FROM maintenance WHERE mai_id = :id";
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
                 if ($this->_req->bindValue(':id', $id, PDO::PARAM_INT)) {
@@ -44,7 +43,7 @@ class MaintenanceModel extends CoreModel
 
     public function readOne($id)
     {
-        $sql = "SELECT * FROM actions WHERE act_id = :id ";
+        $sql = "SELECT * FROM maintenance WHERE mai_id = :id ";
 
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
