@@ -11,10 +11,10 @@ class MaintenanceModel extends CoreModel
      */
     public function createMaintenance($request)
     {
-        $sql = "INSERT INTO maintenance (mai_name, mai_description, mai_price, mai_date, car_id ) VALUES (:name, :description, :price,:date, :id)";
+        $sql = "INSERT INTO maintenance (mai_name, mai_description,mai_photo, mai_price, mai_date, car_id ) VALUES (:name, :description,:photo, :price,:date, :id)";
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
-                if (($this->_req->bindValue(':name', $request['name']) && $this->_req->bindValue(':description', $request['description']) && $this->_req->bindValue(':price', $request['price']) && $this->_req->bindValue(':date', $request['date'])) && $this->_req->bindValue(':id', $request['id'])) {
+                if (($this->_req->bindValue(':name', $request['name']) && $this->_req->bindValue(':description', $request['description']) && $this->_req->bindValue(':price', $request['price']) && $this->_req->bindValue(':date', $request['date'])) && $this->_req->bindValue(':id', $request['id']) && $this->_req->bindValue(':photo', $request['photo'])) {
                     if ($this->_req->execute()) {
                         $res = $this->getDb()->lastInsertId();
                         return $res;

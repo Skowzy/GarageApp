@@ -4,6 +4,7 @@
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <?php foreach ($maintenances as $maintenance): ?>
+            <a href="?ctrl=maintenance&action=showOne&id=<?= $maintenance->getId()?>">
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
                 <div class="p-4">
                     <div class="mb-4">
@@ -36,12 +37,10 @@
                         <span class="text-blue-900 font-semibold">
                             <?= number_format($maintenance->getPrice(), 2, ',', ' '); ?> €
                         </span>
-                        <a href="?ctrl=actions&action=edit&id=<?= $maintenance->getId(); ?>" class="text-blue-600 hover:text-blue-800">
-                            <i class="fas fa-edit mr-1"></i> Modifier
-                        </a>
                     </div>
                 </div>
             </div>
+            </a>
         <?php endforeach; ?>
     </div>
 
@@ -50,4 +49,5 @@
             <i class="fas fa-plus-circle mr-2"></i>Ajouter une maintenance
         </a>
     </div>
+
 </main>

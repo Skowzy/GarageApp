@@ -24,10 +24,10 @@
                         <li><strong>Immatriculation :</strong> <?= $car->getLicensePlate() ?? "Non renseigné" ?></li>
                         <li><strong>Carburant :</strong> <?= $car->getFuelType() ?? "Non renseigné" ?></li>
                     </ul>
-                    <?php if(null !== $car->getNotes()) :?>
-                    <h2 class="text-2xl font-semibold mt-4 mb-4 text-blue-900">Informations supplémentaires</h2>
-                    <p><?= $car->getNotes() ?></p>
-                    <?php endif;?>
+                    <?php if (null !== $car->getNotes()) : ?>
+                        <h2 class="text-2xl font-semibold mt-4 mb-4 text-blue-900">Informations supplémentaires</h2>
+                        <p><?= $car->getNotes() ?></p>
+                    <?php endif; ?>
                 </div>
                 <!--                <div>-->
                 <!--                    <h2 class="text-2xl font-semibold mb-4 text-blue-900">Dernier entretien</h2>-->
@@ -65,32 +65,38 @@
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <div class="p-6">
             <h2 class="text-2xl font-semibold mb-4 text-blue-900">Historique des entretiens</h2>
-            <?php if(isset($maintenances)) :?>
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead>
-                    <tr class="bg-gray-100">
-                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Nom</th>
-                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Description</th>
-                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Prix</th>
-                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($maintenances as $maintenance): ?>
-                        <tr class="border-b border-gray-200 hover:bg-gray-50">
-                            <td class="px-4 py-2"><?= $maintenance->getName(); ?></td>
-                            <td class="px-4 py-2"><?= $maintenance->getDescription(); ?></td>
-                            <td class="px-4 py-2"><?= $maintenance->getPrice(); ?>€</td>
-                            <td class="px-4 py-2 text-gray-600"><?= $maintenance->getDate(); ?></td>
+            <?php if (isset($maintenances)) : ?>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Nom</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Description</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Prix</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Date</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Détails</th>
+
                         </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php else :?>
-        <p class="">Aucun entretien enregistré pour le moment</p>
-        <?php endif;?>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($maintenances as $maintenance): ?>
+
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-2"><?= $maintenance->getName(); ?></td>
+                                    <td class="px-4 py-2"><?= $maintenance->getDescription(); ?></td>
+                                    <td class="px-4 py-2"><?= $maintenance->getPrice(); ?>€</td>
+                                    <td class="px-4 py-2 text-gray-600"><?= $maintenance->getDate(); ?></td>
+                                    <td class="px-4 py-2"><a href="?ctrl=maintenance&action=showOne&id=<?= $maintenance->getId()?>"><i class="fa-regular fa-eye text-blue-600 hover:text-blue-900"></i></a></td>
+                                </tr>
+
+
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else : ?>
+                <p class="">Aucun entretien enregistré pour le moment</p>
+            <?php endif; ?>
         </div>
     </div>
 
