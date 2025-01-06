@@ -43,7 +43,7 @@ class CarModel extends CoreModel
      */
     public function viewCars($id)
     {
-        $sql = "SELECT car_id, bra_label, mod_label, car_year,car_kilometers, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
+        $sql = "SELECT car_id, bra_label AS car_brand, mod_label AS car_model, car_year,car_kilometers, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
                 FROM car
                 JOIN user_ ON car.use_id = user_.use_id
                 JOIN brand ON car_brandId = bra_id
@@ -73,7 +73,7 @@ class CarModel extends CoreModel
     public function listCars() : array | false
     {
         $sql = "
-                SELECT car_id, bra_label, mod_label, car_year, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
+                SELECT car_id, bra_label AS car_brand, mod_label AS car_model, car_year, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
                 FROM car
                 JOIN user_ ON car_useId = user_.use_id
                 JOIN model ON car_modelId = mod_id

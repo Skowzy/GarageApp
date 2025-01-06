@@ -6,14 +6,6 @@ class HomeController
     public function index()
     {
         try{
-            $carModel = new CarModel();
-            $datas = $carModel->listCars();
-            foreach ($datas as $data) {
-                $cars[] = new Car($data);
-            }
-            dump($cars);
-
-
             $brandModel = new BrandModel();
             $datas = $brandModel->readAll();
             foreach($datas as $data){

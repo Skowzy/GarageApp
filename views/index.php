@@ -29,6 +29,7 @@
                 <div>
                     <label for="brand" class="block mb-2">Marque</label>
                     <select name="brand" id="brand" class="w-full p-2 border rounded" required>
+                        <option selected disabled>Sélectionnez une marque</option>
                         <?php foreach ($brands as $brand) : ?>
                             <option value="<?= $brand->getId() ?>"><?= $brand->getLabel() ?></option>
                         <?php endforeach; ?>
@@ -36,9 +37,10 @@
                 </div>
                 <div>
                     <label for="model" class="block mb-2">Modèle</label>
-                    <select name="model" id="brand" class="w-full p-2 border rounded" required>
+                    <select name="model" id="model" class="w-full p-2 border rounded" required>
+                        <option selected disabled>Sélectionnez un modèle</option>
                         <?php foreach ($models as $model) : ?>
-                            <option value="<?= $model->getId() ?>"><?= $model->getLabel() ?></option>
+                            <option id="modelopt" data-brand="<?=$model->getBrandId()?>" value="<?= $model->getId() ?>"><?= $model->getLabel() ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -92,3 +94,25 @@
         </div>
     </section>
 </main>
+
+<script>
+    const brandSelect = document.getElementById("brand");
+    const modelOptions = document.querySelectorAll("#model option");
+
+    brandSelect.addEventListener("change", (event) => {
+        const selectedBrandId = event.target.value;
+        
+        modelOptions.forEach(option => {
+            const brandId = option.getAttribute("data-brand");
+            
+            if (brandId === selectedBrandId) {
+                option.style.display = ""; // Affiche l'option
+            } else {
+                option.style.display = "none"; // Cache l'option
+            }
+        });
+        
+        // Réinitialise la sélection du modèle
+        document.getElementById("model").selectedIndex = 0;
+    });
+</script>

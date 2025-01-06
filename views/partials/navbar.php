@@ -23,7 +23,7 @@
                        class="px-3 py-2 bg-white text-blue-900 rounded ml-2 hover:bg-gray-200">
                         Deconnexion
                     </a>
-                <?php elseif (($_GET['action']) !== "login") : ?>
+                <?php elseif (isset($_GET['action']) && ($_GET['action']) !== "login") : ?>
 
                     <a href="?ctrl=user&action=login"
                        class="px-3 py-2 bg-white text-blue-900 rounded ml-2 hover:bg-gray-200">

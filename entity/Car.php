@@ -12,6 +12,8 @@ class Car extends CoreEntity
     private ?string $notes;
     private int $useId;
     private string $fullname;
+    private string $model;
+    private string $brand;
 
     /**
      * @return int
@@ -36,6 +38,7 @@ class Car extends CoreEntity
     {
         return $this->modelId;
     }
+
     /**
      * @return string
      */
@@ -96,6 +99,7 @@ class Car extends CoreEntity
     {
         $this->modelId = $modelId;
     }
+
     public function setYear(int $year): void
     {
         $this->year = $year;
@@ -125,6 +129,22 @@ class Car extends CoreEntity
     public function setFullname(string $fullname): void
     {
         $this->fullname = $fullname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBrand(): string
+    {
+        return $this->brand;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModel(): string
+    {
+        return $this->model;
     }
 
     /**
@@ -165,6 +185,22 @@ class Car extends CoreEntity
     public function getNotes(): ?string
     {
         return $this->notes;
+    }
+
+    /**
+     * @param string $brand
+     */
+    public function setBrand(string $brand): void
+    {
+        $this->brand = $brand;
+    }
+
+    /**
+     * @param string $model
+     */
+    public function setModel(string $model): void
+    {
+        $this->model = $model;
     }
 
     /**
