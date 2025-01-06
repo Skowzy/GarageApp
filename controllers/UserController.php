@@ -8,7 +8,7 @@ class UserController
      */
     public function showAll()
     {
-        if($_SESSION['user']['role'] === 1 || $_SESSION['user']['role'] === 4 || $_SESSION['user']['power'] >= 100){
+        if ($_SESSION['user']['role'] === 1 || $_SESSION['user']['role'] === 4 || $_SESSION['user']['power'] >= 100) {
             try {
                 $model = new UserModel();
                 $datas = $model->listUsers();
@@ -22,7 +22,7 @@ class UserController
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
-        }else{
+        } else {
             header("location: ?ctrl=home&action=index&message=403");
         }
 
@@ -191,16 +191,16 @@ class UserController
     {
         try {
             $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-            
+
             if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login'])) {
                 $userModel = new UserModel();
                 $update = $userModel->updateUser($request);
-                
+
                 if ($update) {
                     $_SESSION['user']['firstname'] = $request['firstname'];
                     $_SESSION['user']['lastname'] = $request['lastname'];
                     $_SESSION['user']['login'] = $request['login'];
-                    
+
                     header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=success');
                     exit();
                 }
