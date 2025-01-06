@@ -8,7 +8,7 @@ class UserController
      */
     public function showAll()
     {
-        if($_SESSION['user']['role'] === 1 || $_SESSION['user']['power'] >= 100){
+        if($_SESSION['user']['role'] === 1 || $_SESSION['user']['role'] === 4 || $_SESSION['user']['power'] >= 100){
             try {
                 $model = new UserModel();
                 $datas = $model->listUsers();
