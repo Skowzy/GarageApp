@@ -83,5 +83,32 @@ class MaintenanceController
         }
     }
 
+    public function create($id)
+    {
+        try{
+            $carModel = new CarModel();
+            $datas = $carModel->readOne($id);
+            $car = new Car($datas);
+
+            require_once "views/maintenance/addOne.php";
+        }catch (Exception $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function store($request)
+    {
+        try{
+            $maintenanceModel = new MaintenanceModel();
+            $create = $maintenanceModel->createMaintenance($request);
+            if($create){
+                header("Location: ?ctrl=maintenance&action=showAll&id=".$_SESSION['user']['id']."&create=success");
+            }else{
+                header("Location: ?ctrl=maintenance&action=showAll&id=".$_SESSION['user']['id']."&create=error");
+            }
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
+    }
 
 }

@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="bg-gray-100 px-6 py-4">
-                    <a href="?ctrl=actions&action=create&car_id=" class="text-blue-600 hover:text-blue-800">
+                    <a href="?ctrl=maintenance&action=create&id=<?=$car->getId()?>" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-plus-circle mr-1"></i> Planifier un entretien
                     </a>
                 </div>

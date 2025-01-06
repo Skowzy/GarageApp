@@ -39,10 +39,4 @@
             </tbody>
         </table>
     </div>
-
-    <div class="mt-8 text-center">
-        <a href="?ctrl=actions&action=create" class="bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition duration-300">
-            <i class="fas fa-plus-circle mr-2"></i>Ajouter une maintenance
-        </a>
-    </div>
 </main>
