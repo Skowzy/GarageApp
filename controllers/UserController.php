@@ -212,4 +212,25 @@ class UserController
         }
     }
 
+    public function updatePassword($request): void
+    {
+        try {
+            $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+
+            if (!empty($request['oldPassword']) && !empty($request['password']) && !empty($request['passwordConfirm']) && $request['password'] == $request['passwordConfirm']) {
+                $userModel = new UserModel();
+                $update = $userModel->updatePassword($request);
+
+                if ($update) {
+                    header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=success');
+                    exit();
+                }
+            }
+            header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=error');
+            exit();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
 }

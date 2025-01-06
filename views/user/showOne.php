@@ -103,6 +103,7 @@
         </div>
     </div>
 </div>
+
 <!--Password modal-->
 <div id="passwordModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog"
      aria-modal="true">
@@ -115,21 +116,25 @@
                     Modifier mes informations
                 </h3>
                 <div class="mt-2">
-                    <form method="post" action="?ctrl=user&action=update" id="editForm" class="space-y-4">
+                    <form method="post" action="?ctrl=user&action=updatePassword" id="passwordForm" class="space-y-4">
                         <input type="hidden" name="id" value="<?= $user->getId() ?>">
+
                         <div>
-                            <label for="oldPassword" class="block text-sm font-medium text-gray-700">Ancien mot de passe</label>
+                            <label for="oldPassword" class="block text-sm font-medium text-gray-700">Ancien mot de
+                                passe</label>
                             <input type="password" id="oldPassword" name="oldPassword"
                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
                         <div>
-                            <label for="newPassword" class="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
-                            <input type="password" id="newPassword" name="newPassword"
+                            <label for="password" class="block text-sm font-medium text-gray-700">Nouveau mot de
+                                passe</label>
+                            <input type="password" id="password" name="password"
                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
                         <div>
-                            <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirmer le nouveau mot de passe</label>
-                            <input type="email" id="confirmPassword" name="confirmPassword"
+                            <label for="passwordConfirm" class="block text-sm font-medium text-gray-700">Confirmer le
+                                nouveau mot de passe</label>
+                            <input type="password" id="passwordConfirm" name="passwordConfirm"
                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
                         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">

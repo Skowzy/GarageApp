@@ -153,25 +153,53 @@ class UserModel extends CoreModel
         }
     }
 
-    public function lastLogin($request)
-    {
-        $sql = "UPDATE user_
-            SET  use_lastLogin= CURRENT_TIMESTAMP
-            WHERE use_login = :login";
+    public function updatePassword($request)
+{
+    $query = "SELECT use_password FROM user_ WHERE use_id = :id";
+    $sql = "UPDATE user_ SET use_password = :password WHERE use_id = :id";
 
-        try {
-            if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
-                if ($this->_req->bindValue(':login', $request['login'], PDO::PARAM_STR)) {
-                    if ($this->_req->execute()) {
-                        return true;
+    try {
+        if (($this->_req = $this->getDb()->prepare($query)) !== false) {
+            if ($this->_req->bindValue(':id', $request['id'], PDO::PARAM_INT)) {
+                if ($this->_req->execute()) {
+                    $datas = $this->_req->fetch(PDO::FETCH_ASSOC);
+                    if ($datas && password_verify($request['oldPassword'], $datas['use_password'])) {
+                        if ($this->_req = $this->getDb()->prepare($sql)) {
+                            $hashedPassword = password_hash($request['password'], PASSWORD_DEFAULT);
+                            $this->_req->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
+                            $this->_req->bindValue(':id', $request['id'], PDO::PARAM_INT);
+                            return $this->_req->execute();
+                        }
                     }
                 }
             }
-            return false;
-        } catch (PDOException $e) {
-            die($e->getMessage());
+        }
+        return false;
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
+
+        public
+        function lastLogin($request)
+        {
+            $sql = "UPDATE user_
+            SET  use_lastLogin= CURRENT_TIMESTAMP
+            WHERE use_login = :login";
+
+            try {
+                if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
+                    if ($this->_req->bindValue(':login', $request['login'], PDO::PARAM_STR)) {
+                        if ($this->_req->execute()) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            } catch (PDOException $e) {
+                die($e->getMessage());
+            }
+
         }
 
     }
-
-}
