@@ -3,14 +3,14 @@
 class Car extends CoreEntity
 {
     private int $id;
-    private string $model;
-    private string $brand;
+    private int $modelId;
+    private int $brandId;
     private int $year;
     private ?int $kilometers;
     private ?string $fuelType;
     private ?string $licensePlate;
     private ?string $notes;
-    private int $use_id;
+    private int $useId;
     private string $fullname;
 
     /**
@@ -24,6 +24,21 @@ class Car extends CoreEntity
     /**
      * @return string
      */
+    public function getBrandId(): string
+    {
+        return $this->brandId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModelId(): string
+    {
+        return $this->modelId;
+    }
+    /**
+     * @return string
+     */
     public function getFullname(): string
     {
         return $this->fullname;
@@ -32,18 +47,6 @@ class Car extends CoreEntity
     /**
      * @return string
      */
-    public function getModel(): string
-    {
-        return $this->model;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBrand(): string
-    {
-        return $this->brand;
-    }
 
     /**
      * @return int
@@ -66,7 +69,7 @@ class Car extends CoreEntity
      */
     public function getUseId(): int
     {
-        return $this->use_id;
+        return $this->useId;
     }
 
     /**
@@ -79,27 +82,20 @@ class Car extends CoreEntity
     }
 
     /**
-     * @param string $model
-     * @return void
+     * @param int $brandId
      */
-    public function setModel(string $model): void
+    public function setBrandId(int $brandId): void
     {
-        $this->model = $model;
+        $this->brandId = $brandId;
     }
 
     /**
-     * @param string $brand
-     * @return void
+     * @param int $modelId
      */
-    public function setBrand(string $brand): void
+    public function setModelId(int $modelId): void
     {
-        $this->brand = $brand;
+        $this->modelId = $modelId;
     }
-
-    /**
-     * @param int $year
-     * @return void
-     */
     public function setYear(int $year): void
     {
         $this->year = $year;
@@ -118,9 +114,9 @@ class Car extends CoreEntity
      * @param int $use_id
      * @return void
      */
-    public function setUseId(int $use_id): void
+    public function setUseId(int $useId): void
     {
-        $this->use_id = $use_id;
+        $this->useId = $useId;
     }
 
     /**

@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `garage`
+-- Base de données : `garageApp`
 --
 
 -- --------------------------------------------------------
@@ -230,6 +230,7 @@ ALTER TABLE `user_`
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
+
 --
 
 --

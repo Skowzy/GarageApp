@@ -86,7 +86,7 @@ class MaintenanceController
     public function create($id)
     {
         try{
-            $carModel = new CarModel();
+            $carModel = new Model();
             $datas = $carModel->readOne($id);
             $car = new Car($datas);
 

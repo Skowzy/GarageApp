@@ -9,7 +9,7 @@ class CarModel extends CoreModel
      * @param $request
      * @return false|string
      */
-    public function createCar($request)
+    public function createCar($request) : false | string
     {
         $sql = "INSERT INTO car (car_brand, car_model, car_year,car_kilometers,car_fuelType,car_licensePlate, use_id) 
                 VALUES (:brand, :model, :year, :kilometers, :fuelType, :licensePlate, :id )";
@@ -43,12 +43,13 @@ class CarModel extends CoreModel
      */
     public function viewCars($id)
     {
-        $sql = "SELECT car_id, car_brand, car_model, car_year,car_kilometers, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
+        $sql = "SELECT car_id, bra_label, mod_label, car_year,car_kilometers, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
                 FROM car
                 JOIN user_ ON car.use_id = user_.use_id
+                JOIN brand ON car_brandId = bra_id
+                JOIN model ON car_modelId = mod_id
                 WHERE car.use_id = :id";
-        "
-                ";
+
         try {
             if ($this->_req = $this->getDb()->prepare($sql)) {
                 if (($this->_req->bindValue(':id', $id, PDO::PARAM_STR))) {
@@ -67,14 +68,16 @@ class CarModel extends CoreModel
     }
 
     /**
-     * @return array|false|void
+     * @return array|false
      */
-    public function listCars()
+    public function listCars() : array | false
     {
         $sql = "
-                SELECT car_id, car_brand, car_model, car_year, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
+                SELECT car_id, bra_label, mod_label, car_year, CONCAT(use_firstname, ' ', use_lastname) AS use_fullname
                 FROM car
-                JOIN user_ ON car.use_id = user_.use_id
+                JOIN user_ ON car_useId = user_.use_id
+                JOIN model ON car_modelId = mod_id
+                JOIN brand ON car_brandId = brand.bra_id
                 ";
         try {
 
@@ -116,8 +119,10 @@ class CarModel extends CoreModel
      */
     public function readOne($id)
     {
-        $sql = "SELECT car_id, car_model, car_brand, car_year, car_kilometers, car_fuelType, car_licensePlate, car_notes 
+        $sql = "SELECT car_id, mod_label, bra_label, car_year, car_kilometers, car_fuelType, car_licensePlate, car_notes 
                 FROM car 
+                JOIN model ON car_modelId = mod_id
+                JOIN brand ON car_brandId = brand.bra_id
                 WHERE car_id = :id ";
 
         try {

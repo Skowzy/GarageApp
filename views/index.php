@@ -23,26 +23,36 @@
     <section class="mb-12">
         <h2 class="text-3xl font-bold mb-6">Commencez dès maintenant</h2>
         <div class="bg-white p-6 rounded-lg shadow">
-            <form class="grid md:grid-cols-4 gap-4" action="?<?= isset($_SESSION['user']) ? "ctrl=car&action=store" : "ctrl=user&action=login" ?>" method="post">
+            <form class="grid md:grid-cols-4 gap-4"
+                  action="?<?= isset($_SESSION['user']) ? "ctrl=car&action=store" : "ctrl=user&action=login" ?>"
+                  method="post">
                 <div>
                     <label for="brand" class="block mb-2">Marque</label>
-                    <input id="brand" name="brand" class="w-full p-2 border rounded" required>
-
+                    <select name="brand" id="brand" class="w-full p-2 border rounded" required>
+                        <?php foreach ($brands as $brand) : ?>
+                            <option value="<?= $brand->getId() ?>"><?= $brand->getLabel() ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
                 <div>
                     <label for="model" class="block mb-2">Modèle</label>
-                    <input id="model" name="model" class="w-full p-2 border rounded" required>
-
+                    <select name="model" id="brand" class="w-full p-2 border rounded" required>
+                        <?php foreach ($models as $model) : ?>
+                            <option value="<?= $model->getId() ?>"><?= $model->getLabel() ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
                 <div>
                     <label for="year" class="block mb-2">Année</label>
-                    <input type="number" id="year" name="year" class="w-full p-2 border rounded" placeholder="Ex: 2023" min="1900" max="2100" required>
+                    <input type="number" id="year" name="year" class="w-full p-2 border rounded" placeholder="Ex: 2023"
+                           min="1900" max="2100" required>
                 </div>
                 <?php if (isset($_SESSION['user'])) : ?>
-                <input type="hidden" name="id" value="<?=$_SESSION['user']['id']?>">
+                    <input type="hidden" name="id" value="<?= $_SESSION['user']['id'] ?>">
                 <?php endif; ?>
                 <div class="flex items-end">
-                    <button type="submit" class="w-full bg-blue-900 text-white text-center py-2 px-4 rounded hover:bg-blue-800 cursor-pointer">
+                    <button type="submit"
+                            class="w-full bg-blue-900 text-white text-center py-2 px-4 rounded hover:bg-blue-800 cursor-pointer">
                         Ajouter mon véhicule
                     </button>
                 </div>
@@ -54,24 +64,30 @@
         <h2 class="text-3xl font-bold mb-6">Derniers entretiens populaires</h2>
         <div class="grid md:grid-cols-4 gap-6">
             <div class="bg-white p-4 rounded-lg shadow">
-                <img src="https://via.placeholder.com/300x200" alt="Vidange" class="w-full h-40 object-cover rounded mb-4">
+                <img src="https://via.placeholder.com/300x200" alt="Vidange"
+                     class="w-full h-40 object-cover rounded mb-4">
                 <h3 class="font-semibold mb-2">Vidange</h3>
-                <p class="text-sm text-gray-600">Changez l'huile de votre moteur régulièrement pour prolonger sa durée de vie.</p>
+                <p class="text-sm text-gray-600">Changez l'huile de votre moteur régulièrement pour prolonger sa durée
+                    de vie.</p>
             </div>
             <div class="bg-white p-4 rounded-lg shadow">
-                <img src="https://via.placeholder.com/300x200" alt="Freins" class="w-full h-40 object-cover rounded mb-4">
+                <img src="https://via.placeholder.com/300x200" alt="Freins"
+                     class="w-full h-40 object-cover rounded mb-4">
                 <h3 class="font-semibold mb-2">Contrôle des freins</h3>
                 <p class="text-sm text-gray-600">Assurez-vous que vos freins sont en bon état pour votre sécurité.</p>
             </div>
             <div class="bg-white p-4 rounded-lg shadow">
-                <img src="https://via.placeholder.com/300x200" alt="Pneus" class="w-full h-40 object-cover rounded mb-4">
+                <img src="https://via.placeholder.com/300x200" alt="Pneus"
+                     class="w-full h-40 object-cover rounded mb-4">
                 <h3 class="font-semibold mb-2">Changement de pneus</h3>
                 <p class="text-sm text-gray-600">Remplacez vos pneus usés pour une meilleure adhérence sur la route.</p>
             </div>
             <div class="bg-white p-4 rounded-lg shadow">
-                <img src="https://via.placeholder.com/300x200" alt="Batterie" class="w-full h-40 object-cover rounded mb-4">
+                <img src="https://via.placeholder.com/300x200" alt="Batterie"
+                     class="w-full h-40 object-cover rounded mb-4">
                 <h3 class="font-semibold mb-2">Vérification de la batterie</h3>
-                <p class="text-sm text-gray-600">Testez et remplacez votre batterie si nécessaire pour éviter les pannes.</p>
+                <p class="text-sm text-gray-600">Testez et remplacez votre batterie si nécessaire pour éviter les
+                    pannes.</p>
             </div>
         </div>
     </section>

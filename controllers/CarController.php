@@ -26,7 +26,7 @@ class CarController
 
         try {
 
-            $model = new CarModel();
+            $model = new Model();
 
             if (!empty($request['brand']) && !empty($request['model']) && !empty($request['year'])) {
                 $car = $model->createCar($request);
@@ -52,7 +52,7 @@ class CarController
     public function showAll($id): void
     {
         try {
-            $carModel = new carModel();
+            $carModel = new Model();
             $datas = $carModel->viewCars($id);
             $cars = [];
             $lastMaintenances = [];
@@ -87,7 +87,7 @@ class CarController
     public function showOne($id): void
     {
         try {
-            $carModel = new carModel();
+            $carModel = new Model();
             $datas = $carModel->readOne($id);
             $car = new Car($datas);
 
@@ -110,7 +110,7 @@ class CarController
     public function remove($id): void
     {
         try {
-            $model = new carModel();
+            $model = new Model();
             $delete = $model->deleteCar($id);
 
             if ($delete) {
@@ -132,7 +132,7 @@ class CarController
     public function edit($id): void
     {
         try {
-            $model = new carModel();
+            $model = new Model();
             $datas = $model->readOne($id);
             $car = new Car($datas);
 
@@ -155,7 +155,7 @@ class CarController
     {
         $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
         try {
-            $model = new carModel();
+            $model = new Model();
             $update = $model->updateCar($request);
             if ($update) {
                 header('Location: ?ctrl=car&action=showOne&id=' . $request['id'] . "&updateCar=success");
