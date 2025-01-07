@@ -18,12 +18,12 @@ class UserController
                 }
 
 //            dump($users);
-                require "views/user/showAll.php";
+                require_once "views/user/showAll.php";
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
         } else {
-            header("location: ?ctrl=home&action=index&message=403");
+            header("location: ?ctrl=home&action=index&error=403");
         }
 
     }
@@ -36,7 +36,7 @@ class UserController
     {
         try {
 
-            require "views/user/register.php";
+            require_once "views/user/register.php";
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -82,7 +82,7 @@ class UserController
      */
     public function login()
     {
-        require "views/user/login.php";
+        require_once "views/user/login.php";
     }
 
     /**
@@ -108,8 +108,13 @@ class UserController
                     'power' => $login['rol_power'],
                     'role' => $login['rol_id'],
                 ];
+
+                if($_SESSION['user']['power'] < 100){
                 header('Location: ?ctrl=home&action=index&connexion=success');
                 exit();
+                }elseif ($_SESSION['user']['power'] >= 100) {
+                    header('Location: ?ctrl=user&action=showAll&connexion=success');
+                }
             } else {
                 header('Location: ?ctrl=home&action=index&connexion=error');
                 exit();

@@ -66,7 +66,11 @@ class MaintenanceController
         }
     }
 
-    public function remove($request)
+    /**
+     * @param $request
+     * @return void
+     */
+    public function remove($request) :void
     {
         try{
             $model = new MaintenanceModel();
