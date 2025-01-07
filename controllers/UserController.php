@@ -66,10 +66,10 @@ class UserController
                 $user = $model->createUser($request);
             }
             if ($user) {
-                header('Location: ?adduser=success');
+                header('Location: ?ctrl=home&action=index&adduser=success');
                 exit();
             } else {
-                header('Location: ?adduser=error');
+                header('Location: ?ctrl=home&action=index&adduser=error');
                 exit();
             }
         } catch (Exception $e) {
@@ -108,10 +108,10 @@ class UserController
                     'power' => $login['rol_power'],
                     'role' => $login['rol_id'],
                 ];
-                header('Location: ?connexion=success');
+                header('Location: ?ctrl=home&action=index&connexion=success');
                 exit();
             } else {
-                header('Location: ?connexion=error');
+                header('Location: ?ctrl=home&action=index&connexion=error');
                 exit();
             }
         } catch (Exception $e) {
@@ -127,7 +127,7 @@ class UserController
         try {
             session_unset();
             session_destroy();
-            header('Location: ?disconnected=success');
+            header('Location: ?ctrl=home&action=index&disconnected=success');
             exit();
         } catch (Exception $e) {
             echo $e->getMessage();
