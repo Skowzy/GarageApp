@@ -10,6 +10,7 @@ class MaintenanceController
     public function showAll($id)
     {
         try{
+            $maintenances=[];
             $model = new MaintenanceModel();
             $datas = $model->readAll($id);
 
@@ -86,9 +87,15 @@ class MaintenanceController
     public function create($id)
     {
         try{
-            $carModel = new Model();
+            $carModel = new CarModel();
             $datas = $carModel->readOne($id);
             $car = new Car($datas);
+
+            $typeModel = new TypeModel();
+            $datas = $typeModel->readAll();
+            foreach ($datas as $data) {
+                $types[] = new Type($data);
+            }
 
             require_once "views/maintenance/addOne.php";
         }catch (Exception $e){

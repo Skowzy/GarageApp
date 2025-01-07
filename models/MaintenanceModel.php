@@ -11,10 +11,10 @@ class MaintenanceModel extends CoreModel
      */
     public function createMaintenance($request)
     {
-        $sql = "INSERT INTO maintenance (mai_name, mai_description, mai_price, mai_date, car_id ) VALUES (:name, :description, :price,:date, :id)";
+        $sql = "INSERT INTO maintenance (mai_description, mai_price, mai_date,mai_typeId, mai_carId ) VALUES (:description, :price,:date, :type,:id)";
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
-                if (($this->_req->bindValue(':name', $request['name']) && $this->_req->bindValue(':description', $request['description']) && $this->_req->bindValue(':price', $request['price']) && $this->_req->bindValue(':date', $request['date'])) && $this->_req->bindValue(':id', $request['id'])) {
+                if (($this->_req->bindValue(':type', $request['type']) && $this->_req->bindValue(':description', $request['description']) && $this->_req->bindValue(':price', $request['price']) && $this->_req->bindValue(':date', $request['date'])) && $this->_req->bindValue(':id', $request['id'])) {
                     if ($this->_req->execute()) {
                         $res = $this->getDb()->lastInsertId();
                         return $res;
@@ -45,9 +45,11 @@ class MaintenanceModel extends CoreModel
 
     public function readOne($id)
     {
-        $sql = "SELECT mai_id,typ_label as mai_name, mai_description, mai_photo, mai_price, mai_date, mai_carId, car_brand, car_model, car_kilometers 
+        $sql = "SELECT mai_id,typ_label as mai_name, mai_description, mai_photo, mai_price, mai_date, mai_carId, bra_label AS car_brand, mod_label AS car_model, car_kilometers 
                 FROM maintenance 
                 JOIN car  ON mai_carId = car_id 
+                JOIN brand ON car_brandId = bra_id
+                JOIN model ON car_modelId = mod_id
                 JOIN type ON mai_typeId = typ_id
                 WHERE mai_id = :id ";
 
@@ -67,9 +69,11 @@ class MaintenanceModel extends CoreModel
 
     public function readAll($id)
     {
-        $sql = "SELECT mai_id,typ_label AS mai_name, mai_description, mai_photo, mai_price, mai_date,  mai_carId,car_brandId, car_modelId car_kilometers
+        $sql = "SELECT mai_id,typ_label AS mai_name, mai_description, mai_photo, mai_price, mai_date,  mai_carId,bra_label AS car_brand,mod_label AS car_model , car_kilometers
                 FROM `maintenance` 
                 JOIN car  ON mai_carId = car_id
+                JOIN brand ON car_brandId = bra_id
+                JOIN model ON car_modelId = mod_id
                 JOIN user_ ON car_useId = use_id
                 JOIN type ON mai_typeId = typ_id
                 WHERE use_id = :id OR mai_carId = :id";

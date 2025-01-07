@@ -17,8 +17,13 @@
                 </div>
 
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Nom de la maintenance</label>
-                    <input type="text" id="name" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <label for="type" class="block mb-2">Type de maintenance</label>
+                    <select name="type" id="type" class="w-full p-2 border rounded" required>
+                        <option selected disabled>Sélectionner une maintenance</option>
+                        <?php foreach ($types as $type) : ?>
+                            <option value="<?= $type->getId() ?>"><?= $type->getLabel() ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
                 <div>

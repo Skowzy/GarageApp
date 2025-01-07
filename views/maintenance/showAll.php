@@ -36,9 +36,6 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
-            <tr class="border-b hover:bg-gray-100">
-                <td>Aucune maintenance trouvée</td>
-            </tr>
             </tbody>
         </table>
     </div>
