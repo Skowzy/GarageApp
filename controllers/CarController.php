@@ -9,6 +9,19 @@ class CarController
     public function create()
     {
         try {
+
+            $brandModel = new BrandModel();
+            $datas = $brandModel->readAll();
+            foreach($datas as $data){
+                $brands[] = new Brand($data);
+            }
+
+            $modelModel = new ModelModel();
+            $datas = $modelModel->readAll();
+            foreach($datas as $data){
+                $models[] = new Model($data);
+            }
+
             require_once 'views/car/addOne.php';
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -26,7 +39,7 @@ class CarController
 
         try {
 
-            $model = new Model();
+            $model = new CarModel();
 
             if (!empty($request['brand']) && !empty($request['model']) && !empty($request['year'])) {
                 $car = $model->createCar($request);
@@ -52,7 +65,7 @@ class CarController
     public function showAll($id): void
     {
         try {
-            $carModel = new Model();
+            $carModel = new CarModel();
             $datas = $carModel->viewCars($id);
             $cars = [];
             $lastMaintenances = [];
@@ -87,7 +100,7 @@ class CarController
     public function showOne($id): void
     {
         try {
-            $carModel = new Model();
+            $carModel = new CarModel();
             $datas = $carModel->readOne($id);
             $car = new Car($datas);
 
@@ -110,7 +123,7 @@ class CarController
     public function remove($id): void
     {
         try {
-            $model = new Model();
+            $model = new CarModel();
             $delete = $model->deleteCar($id);
 
             if ($delete) {
@@ -132,7 +145,7 @@ class CarController
     public function edit($id): void
     {
         try {
-            $model = new Model();
+            $model = new CarModel();
             $datas = $model->readOne($id);
             $car = new Car($datas);
 
@@ -155,7 +168,7 @@ class CarController
     {
         $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
         try {
-            $model = new Model();
+            $model = new CarModel();
             $update = $model->updateCar($request);
             if ($update) {
                 header('Location: ?ctrl=car&action=showOne&id=' . $request['id'] . "&updateCar=success");

@@ -3,17 +3,17 @@
 class Car extends CoreEntity
 {
     private int $id;
-    private int $modelId;
-    private int $brandId;
+    private ?int $modelId;
+    private ?int $brandId;
     private int $year;
     private ?int $kilometers;
     private ?string $fuelType;
     private ?string $licensePlate;
     private ?string $notes;
     private int $useId;
-    private string $fullname;
-    private string $model;
-    private string $brand;
+    private ?string $fullname;
+    private ?string $model;
+    private ?string $brand;
 
     /**
      * @return int
@@ -24,19 +24,19 @@ class Car extends CoreEntity
     }
 
     /**
-     * @return string
+     * @return int|null
      */
-    public function getBrandId(): string
+    public function getModelId(): ?int
     {
-        return $this->brandId;
+        return $this->modelId;
     }
 
     /**
-     * @return string
+     * @return int|null
      */
-    public function getModelId(): string
+    public function getBrandId(): ?int
     {
-        return $this->modelId;
+        return $this->brandId;
     }
 
     /**
@@ -85,17 +85,17 @@ class Car extends CoreEntity
     }
 
     /**
-     * @param int $brandId
+     * @param int|null $brandId
      */
-    public function setBrandId(int $brandId): void
+    public function setBrandId(?int $brandId): void
     {
         $this->brandId = $brandId;
     }
 
     /**
-     * @param int $modelId
+     * @param int|null $modelId
      */
-    public function setModelId(int $modelId): void
+    public function setModelId(?int $modelId): void
     {
         $this->modelId = $modelId;
     }
@@ -117,6 +117,9 @@ class Car extends CoreEntity
     /**
      * @param int $use_id
      * @return void
+     */
+    /**
+     * @param int $useId
      */
     public function setUseId(int $useId): void
     {

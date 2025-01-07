@@ -45,7 +45,11 @@ class MaintenanceModel extends CoreModel
 
     public function readOne($id)
     {
-        $sql = "SELECT mai_id,mai_name, mai_description, mai_photo, mai_price, mai_date, m.car_id AS mai_carId, car_brand, car_model, car_kilometers FROM maintenance m  JOIN car c ON m.car_id = c.car_id WHERE mai_id = :id ";
+        $sql = "SELECT mai_id,typ_label as mai_name, mai_description, mai_photo, mai_price, mai_date, mai_carId, car_brand, car_model, car_kilometers 
+                FROM maintenance 
+                JOIN car  ON mai_carId = car_id 
+                JOIN type ON mai_typeId = typ_id
+                WHERE mai_id = :id ";
 
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
@@ -63,11 +67,12 @@ class MaintenanceModel extends CoreModel
 
     public function readAll($id)
     {
-        $sql = "SELECT mai_id,mai_name, mai_description, mai_photo, mai_price, mai_date, m.car_id AS mai_carId, car_brand, car_model, car_kilometers
-                FROM `maintenance` m
-                JOIN car c ON m.car_id = c.car_id
-                JOIN user_ u ON c.use_id = u.use_id
-                WHERE u.use_id = :id OR m.car_id = :id";
+        $sql = "SELECT mai_id,typ_label AS mai_name, mai_description, mai_photo, mai_price, mai_date,  mai_carId,car_brandId, car_modelId car_kilometers
+                FROM `maintenance` 
+                JOIN car  ON mai_carId = car_id
+                JOIN user_ ON car_useId = use_id
+                JOIN type ON mai_typeId = typ_id
+                WHERE use_id = :id OR mai_carId = :id";
 
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
@@ -112,11 +117,12 @@ class MaintenanceModel extends CoreModel
 
     public function getLastMaintenance($id)
     {
-        $sql = "SELECT mai_id,mai_name, mai_description, mai_photo, mai_price, mai_date, m.car_id AS mai_carId, car_brand, car_model, car_kilometers
-            FROM maintenance m 
-            JOIN car c 
-            ON m.car_id = c.car_id 
-            WHERE c.car_id = :id 
+        $sql = "SELECT mai_id,typ_label AS mai_name, mai_description, mai_photo, mai_price, mai_date, mai_carId, car_brandId, car_modelId, car_kilometers
+            FROM maintenance 
+            JOIN car 
+            ON mai_carId = car_id 
+            JOIN type ON mai_typeId = typ_id
+            WHERE car_id = :id 
             ORDER BY mai_date 
             DESC LIMIT 1";
 

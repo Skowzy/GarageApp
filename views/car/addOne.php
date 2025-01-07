@@ -5,12 +5,22 @@
         <input type="hidden" name="id" value="<?=$_SESSION['user']['id']?>">
         <div class="grid md:grid-cols-2 gap-6">
             <div>
-                <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">Marque</label>
-                <input type="text" id="brand" name="brand" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <label for="brand" class="block mb-2">Marque</label>
+                <select name="brand" id="brand" class="w-full p-2 border rounded" required>
+                    <option selected disabled>Sélectionnez une marque</option>
+                    <?php foreach ($brands as $brand) : ?>
+                        <option value="<?= $brand->getId() ?>"><?= $brand->getLabel() ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <div>
-                <label for="model" class="block text-sm font-medium text-gray-700 mb-1">Modèle</label>
-                <input type="text" id="model" name="model" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <label for="model" class="block mb-2">Modèle</label>
+                <select name="model" id="model" class="w-full p-2 border rounded" required>
+                    <option selected disabled>Sélectionnez un modèle</option>
+                    <?php foreach ($models as $model) : ?>
+                        <option id="modelopt" data-brand="<?=$model->getBrandId()?>" value="<?= $model->getId() ?>"><?= $model->getLabel() ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <div>
                 <label for="year" class="block text-sm font-medium text-gray-700 mb-1">Année</label>
@@ -47,3 +57,25 @@
         </div>
     </form>
 </main>
+
+<script>
+    const brandSelect = document.getElementById("brand");
+    const modelOptions = document.querySelectorAll("#model option");
+
+    brandSelect.addEventListener("change", (event) => {
+        const selectedBrandId = event.target.value;
+
+        modelOptions.forEach(option => {
+            const brandId = option.getAttribute("data-brand");
+
+            if (brandId === selectedBrandId) {
+                option.style.display = ""; // Affiche l'option
+            } else {
+                option.style.display = "none"; // Cache l'option
+            }
+        });
+
+        // Réinitialise la sélection du modèle
+        document.getElementById("model").selectedIndex = 0;
+    });
+</script>

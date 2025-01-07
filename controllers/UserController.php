@@ -167,7 +167,7 @@ class UserController
             $data = $userModel->readOne($id);
             $user = new User($data);
 
-            $carModel = new Model();
+            $carModel = new CarModel();
             $infos = $carModel->viewCars($id);
 
             foreach ($infos as $info) {
