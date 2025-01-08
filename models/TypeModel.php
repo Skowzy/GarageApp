@@ -52,6 +52,7 @@ private $_req;
                     }
                 }
             }
+            return false;
         }catch (Exception $e){
             die ($e->getMessage());
         }

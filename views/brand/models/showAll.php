@@ -1,4 +1,4 @@
-<main class="container mx-auto px-4 py-8">
+<main class="container mx-auto px-4 py-8 min-h-screen">
     <div class="mb-6">
         <a href="?ctrl=brand&action=showall" class="text-blue-600 hover:text-blue-800">
             <i class="fas fa-arrow-left mr-2"></i>Retour aux marques
@@ -7,7 +7,8 @@
 
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-blue-900">Modèles <?= $brand->getLabel() ?></h1>
-        <button onclick="openAddModal()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
+        <button onclick="openAddModal()"
+                class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
             <i class="fas fa-plus-circle mr-2"></i>Ajouter un modèle
         </button>
     </div>
@@ -19,7 +20,7 @@
                     <h2 class="text-xl font-semibold text-center text-blue-900"><?= $model->getLabel() ?></h2>
                 </div>
                 <div class="bg-gray-100 px-4 py-2 flex justify-end">
-                    <button onclick="openDeleteModal(<?=$model->getId()?>)" class="text-red-600 hover:text-red-800">
+                    <button onclick="openDeleteModal(<?= $model->getId() ?>)" class="text-red-600 hover:text-red-800">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
@@ -29,7 +30,8 @@
 </main>
 
 <!-- Add Model Modal -->
-<div id="addModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="addModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog"
+     aria-modal="true">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
@@ -38,19 +40,22 @@
                 <h3 class="text-lg leading-6 font-bold text-blue-900 mb-4" id="modal-title">
                     Ajouter un nouveau modèle
                 </h3>
-                <form action="?ctrl=model&action=add" method="POST" enctype="multipart/form-data" class="space-y-4">
+                <form action="?ctrl=model&action=store" method="POST" enctype="multipart/form-data" class="space-y-4">
                     <input type="hidden" name="brandId" value="<?= $brand->getId(); ?>">
                     <div>
                         <label for="modelName" class="block text-sm font-medium text-gray-700 mb-1">
                             Nom du modèle
                         </label>
-                        <input type="text" id="modelName" name="modelName" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <input type="text" id="modelName" name="label" required
+                               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     </div>
                     <div class="flex justify-end space-x-3 mt-4">
-                        <button type="button" onclick="closeAddModal()" class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+                        <button type="button" onclick="closeAddModal()"
+                                class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
                             Annuler
                         </button>
-                        <button type="submit" class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+                        <button type="submit"
+                                class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
                             Ajouter
                         </button>
                     </div>
@@ -61,7 +66,8 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="deleteModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog"
+     aria-modal="true">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
@@ -84,13 +90,14 @@
                 </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <form action="?ctrl=model&action=delete" method="POST">
-                    <input type="hidden" id="deleteModelId" name="modelId">
-                    <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        Supprimer
-                    </button>
+
+                <button type="button" onclick="deleteModel()"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                    Supprimer
+                </button>
                 </form>
-                <button type="button" onclick="closeDeleteModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                <button type="button" onclick="closeDeleteModal()"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                     Annuler
                 </button>
             </div>
@@ -107,16 +114,18 @@
         document.getElementById('addModal').classList.add('hidden');
     }
 
+    let selectModelId;
 
-    function openDeleteModal(modelId, ) {
+    function openDeleteModal(modelId) {
         document.getElementById('deleteModal').classList.remove('hidden');
+        selectModelId = modelId;
     }
 
     function closeDeleteModal() {
         document.getElementById('deleteModal').classList.add('hidden');
     }
 
-    function deleteModel(){
-
+    function deleteModel() {
+        window.location.href = "?ctrl=model&action=remove&id=" + selectModelId;
     }
 </script>

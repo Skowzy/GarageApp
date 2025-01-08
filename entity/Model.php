@@ -2,7 +2,7 @@
 
 class Model extends CoreEntity
 {
-    private string $label;
+    private ?string $label;
     private int $id;
     private int $brandId;
     private string $brandName;
@@ -19,7 +19,7 @@ class Model extends CoreEntity
     /**
      * @return string
      */
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->label;
     }
@@ -51,7 +51,7 @@ class Model extends CoreEntity
     /**
      * @param string $label
      */
-    public function setLabel(string $label): void
+    public function setLabel(?string $label): void
     {
         $this->label = $label;
     }
