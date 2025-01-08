@@ -5,6 +5,7 @@ class Model extends CoreEntity
     private string $label;
     private int $id;
     private int $brandId;
+    private string $brandName;
 
 
     /**
@@ -32,6 +33,14 @@ class Model extends CoreEntity
     }
 
     /**
+     * @return string
+     */
+    public function getBrandName(): string
+    {
+        return $this->brandName;
+    }
+
+    /**
      * @param int $id
      */
     public function setId(int $id): void
@@ -53,5 +62,13 @@ class Model extends CoreEntity
     public function setBrandId(int $brandId): void
     {
         $this->brandId = $brandId;
+    }
+
+    /**
+     * @param string $brandName
+     */
+    public function setBrandName(string $brandName): void
+    {
+        $this->brandName = $brandName;
     }
 }
