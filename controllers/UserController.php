@@ -49,9 +49,9 @@ class UserController
     public function store($request)
     {
         try {
-            $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
 
             if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login']) && !empty($request['password']) && !empty($request['passwordConfirm']) && $request['password'] == $request['passwordConfirm']) {
+                $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
                 $model = new UserModel();
 
                 $datas = $model->listUsers();

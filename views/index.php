@@ -40,7 +40,7 @@
                     <select name="model" id="model" class="w-full p-2 border rounded" required>
                         <option selected disabled>Sélectionnez un modèle</option>
                         <?php foreach ($models as $model) : ?>
-                            <option id="modelopt" data-brand="<?=$model->getBrandId()?>" value="<?= $model->getId() ?>"><?= $model->getLabel() ?></option>
+                            <option data-brand="<?=$model->getBrandId()?>" value="<?= $model->getId() ?>"><?= $model->getLabel() ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -99,20 +99,24 @@
     const brandSelect = document.getElementById("brand");
     const modelOptions = document.querySelectorAll("#model option");
 
+
+    // Stock brand's value onChange
     brandSelect.addEventListener("change", (event) => {
         const selectedBrandId = event.target.value;
-        
+
+        //Loop to check if prop "data-brand" === stocked brandSelect
+
         modelOptions.forEach(option => {
             const brandId = option.getAttribute("data-brand");
             
             if (brandId === selectedBrandId) {
-                option.style.display = ""; // Affiche l'option
+                option.style.display = ""; // Show option where it match
             } else {
-                option.style.display = "none"; // Cache l'option
+                option.style.display = "none"; // Hide option where it doesnt match
             }
         });
         
-        // Réinitialise la sélection du modèle
+        // Reset the selected model
         document.getElementById("model").selectedIndex = 0;
     });
 </script>
