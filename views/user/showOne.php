@@ -39,8 +39,8 @@
                         <div class="flex justify-between items-center">
                             <a href="?ctrl=car&action=showOne&id=<?= $car->getId(); ?>"
                                class="text-blue-900 hover:underline">Voir détails</a>
-                            <!--                        <span class="text-sm text-gray-500">-->
-                            <?php //= $car->getLastMaintenanceDate(); ?><!--</span>-->
+                                                    <span class="text-sm text-gray-500">
+                            <?= $maintenance->getName(); ?></span>
                         </div>
                     </div>
                 </div>

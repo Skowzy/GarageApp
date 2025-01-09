@@ -2,10 +2,10 @@
 
 class TypeController
 {
-    public function showAll() :void
+    public function showAll(): void
     {
-        try {
-            if ($_SESSION['user']['power'] >= 100) {
+        if ($_SESSION['user']['power'] >= 100) {
+            try {
 
                 $model = new TypeModel();
                 $datas = $model->readAll();
@@ -14,46 +14,46 @@ class TypeController
                 }
 
                 require_once "views/type/showAll.php";
-            }else{
-                header('Location: ?ctrl=home&action=index&error=403');
-            }
 
-        } catch (Exception $e) {
-            echo $e->getMessage();
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        } else {
+            header('Location: ?ctrl=home&action=index&error=403');
         }
     }
 
-    public function store($request) : void
+    public function store($request): void
     {
-        try{
-            if ($_SESSION['user']['power'] >= 100) {
+        if ($_SESSION['user']['power'] >= 100) {
+            try {
                 $model = new TypeModel();
                 $create = $model->create($request);
                 if ($create) {
                     header('Location: ?ctrl=type&action=showAll');
                 }
-            }else{
-                header('Location: ?ctrl=home&action=index&error=403');
+            } catch (Exception $e) {
+                echo $e->getMessage();
             }
-        }catch(Exception $e) {
-            echo $e->getMessage();
+        } else {
+            header('Location: ?ctrl=home&action=index&error=403');
         }
     }
 
-    public function remove($id) : void
+    public function remove($id): void
     {
-        try{
-            if ($_SESSION['user']['power'] >= 100) {
+        if ($_SESSION['user']['power'] >= 100) {
+            try {
                 $model = new TypeModel();
                 $remove = $model->delete($id);
                 if ($remove) {
                     header('Location: ?ctrl=type&action=showAll');
                 }
-            }else{
-                header('Location: ?ctrl=home&action=index&error=403');
+            } catch (Exception $e) {
+                echo $e->getMessage();
             }
-        }catch(Exception $e) {
-            echo $e->getMessage();
+        } else {
+            header('Location: ?ctrl=home&action=index&error=403');
         }
     }
 }

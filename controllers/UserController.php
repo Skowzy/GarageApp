@@ -49,7 +49,6 @@ class UserController
     public function store($request)
     {
         try {
-
             $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
 
             if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login']) && !empty($request['password']) && !empty($request['passwordConfirm']) && $request['password'] == $request['passwordConfirm']) {
@@ -61,7 +60,6 @@ class UserController
                         header('Location: ?adduser=error');
                         exit();
                     }
-
                 }
                 $user = $model->createUser($request);
             }
@@ -92,7 +90,6 @@ class UserController
     public function connexion($request): void
     {
         try {
-
             $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
             if (!empty($request['login']) && !empty($request['password'])) {
                 $model = new UserModel();
@@ -109,10 +106,10 @@ class UserController
                     'role' => $login['rol_id'],
                 ];
 
-                if($_SESSION['user']['power'] < 100){
-                header('Location: ?ctrl=home&action=index&connexion=success');
-                exit();
-                }elseif ($_SESSION['user']['power'] >= 100) {
+                if ($_SESSION['user']['power'] < 100) {
+                    header('Location: ?ctrl=home&action=index&connexion=success');
+                    exit();
+                } elseif ($_SESSION['user']['power'] >= 100) {
                     header('Location: ?ctrl=user&action=showAll&connexion=success');
                 }
             } else {
@@ -145,19 +142,22 @@ class UserController
      */
     public function remove($id): void
     {
-        try {
-            $model = new UserModel();
-            $delete = $model->deleteUser($id);
-            if ($delete) {
-                header('Location: ?ctrl=user&action=showall&deleted=success');
-                exit();
-
-            } else {
-                header('Location: ?ctrl=user&action=showall&deleted=error');
-                exit();
+        if ($_SESSION['user']['power'] >= 100 || $_SESSION['user']['id'] == $id) {
+            try {
+                $model = new UserModel();
+                $delete = $model->deleteUser($id);
+                if ($delete) {
+                    header('Location: ?ctrl=user&action=showall&deleted=success');
+                    exit();
+                } else {
+                    header('Location: ?ctrl=user&action=showall&deleted=error');
+                    exit();
+                }
+            } catch (Exception $e) {
+                echo $e->getMessage();
             }
-        } catch (Exception $e) {
-            echo $e->getMessage();
+        } else {
+            header('Location: ?ctrl=home&action=index&error=403');
         }
     }
 
@@ -167,24 +167,32 @@ class UserController
      */
     public function profile($id): void
     {
-        try {
-            $userModel = new UserModel();
-            $data = $userModel->readOne($id);
-            $user = new User($data);
+        if ($_SESSION['user']['power'] >= 100 || $_SESSION['user']['id'] == $id) {
+            try {
+                $userModel = new UserModel();
+                $data = $userModel->readOne($id);
+                $user = new User($data);
 
-            $carModel = new CarModel();
-            $infos = $carModel->viewCars($id);
+                $carModel = new CarModel();
+                $infos = $carModel->viewCars($id);
+                $maintenanceModel = new MaintenanceModel();
 
-            foreach ($infos as $info) {
-                $userCars[] = new Car($info);
+                foreach ($infos as $info) {
+                    $userCars[] = new Car($info);
+                }
+                foreach ($userCars as $userCar) {
+                    $datas = $maintenanceModel->getLastMaintenance($userCar->getId());
+                    $maintenance = new Maintenance($datas);
+                }
+
+                require "views/user/showOne.php";
+
+
+            } catch (Exception $e) {
+                echo $e->getMessage();
             }
-
-
-            require "views/user/showOne.php";
-
-
-        } catch (Exception $e) {
-            echo $e->getMessage();
+        } else {
+            header("location: ?ctrl=home&action=index&error=403");
         }
     }
 
@@ -194,47 +202,56 @@ class UserController
      */
     public function update($request): void
     {
-        try {
-            $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($_SESSION['user']['id'] == $request['id']) {
 
-            if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login'])) {
-                $userModel = new UserModel();
-                $update = $userModel->updateUser($request);
+            try {
+                $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
 
-                if ($update) {
-                    $_SESSION['user']['firstname'] = $request['firstname'];
-                    $_SESSION['user']['lastname'] = $request['lastname'];
-                    $_SESSION['user']['login'] = $request['login'];
+                if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login'])) {
+                    $userModel = new UserModel();
+                    $update = $userModel->updateUser($request);
 
-                    header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=success');
-                    exit();
+                    if ($update) {
+                        $_SESSION['user']['firstname'] = $request['firstname'];
+                        $_SESSION['user']['lastname'] = $request['lastname'];
+                        $_SESSION['user']['login'] = $request['login'];
+
+                        header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=success');
+                        exit();
+                    }
                 }
+                header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=error');
+                exit();
+            } catch (Exception $e) {
+                echo $e->getMessage();
             }
-            header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=error');
-            exit();
-        } catch (Exception $e) {
-            echo $e->getMessage();
+        } else {
+            header("location: ?ctrl=home&action=index&error=403");
         }
     }
 
     public function updatePassword($request): void
     {
-        try {
-            $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($_SESSION['user']['id'] == $request['id']) {
+            try {
+                $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
 
-            if (!empty($request['oldPassword']) && !empty($request['password']) && !empty($request['passwordConfirm']) && $request['password'] == $request['passwordConfirm']) {
-                $userModel = new UserModel();
-                $update = $userModel->updatePassword($request);
+                if (!empty($request['oldPassword']) && !empty($request['password']) && !empty($request['passwordConfirm']) && $request['password'] == $request['passwordConfirm']) {
+                    $userModel = new UserModel();
+                    $update = $userModel->updatePassword($request);
 
-                if ($update) {
-                    header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=success');
-                    exit();
+                    if ($update) {
+                        header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=success');
+                        exit();
+                    }
                 }
+                header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=error');
+                exit();
+            } catch (Exception $e) {
+                echo $e->getMessage();
             }
-            header('Location: ?ctrl=user&action=profile&id=' . $request['id'] . '&updated=error');
-            exit();
-        } catch (Exception $e) {
-            echo $e->getMessage();
+        } else {
+            header("location: ?ctrl=home&action=index&error=403");
         }
     }
 
