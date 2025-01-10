@@ -67,16 +67,17 @@ class MaintenanceModel extends CoreModel
         }
     }
 
-    public function readAll($id)
+    public function readAll($id, $type = 'user')
     {
-        $sql = "SELECT mai_id,typ_label AS mai_name, mai_description, mai_photo, mai_price, mai_date,  mai_carId,bra_label AS car_brand,mod_label AS car_model , car_kilometers
-                FROM `maintenance` 
-                JOIN car  ON mai_carId = car_id
+        $sql = "SELECT mai_id, typ_label AS mai_name, mai_description, mai_photo, mai_price, mai_date, mai_carId,
+                       bra_label AS car_brand, mod_label AS car_model, car_kilometers
+                FROM maintenance 
+                JOIN car ON mai_carId = car_id
                 JOIN brand ON car_brandId = bra_id
                 JOIN model ON car_modelId = mod_id
                 JOIN user_ ON car_useId = use_id
                 JOIN type ON mai_typeId = typ_id
-                WHERE use_id = :id OR mai_carId = :id";
+                WHERE " . ($type === 'user' ? "use_id = :id" : "mai_carId = :id");
 
         try {
             if (($this->_req = $this->getDb()->prepare($sql)) !== false) {
@@ -88,11 +89,9 @@ class MaintenanceModel extends CoreModel
                 }
             }
             return false;
-
         } catch (PDOException $e) {
             die ($e->getMessage());
         }
-
     }
 
     public function update($request)

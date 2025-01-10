@@ -105,11 +105,11 @@ class CarController
             $car = new Car($datas);
 
             $maintenanceModel = new MaintenanceModel();
-            $infos = $maintenanceModel->readAll($id);
+            $infos = $maintenanceModel->readAll($id,"car");
             foreach ($infos as $info) {
                 $maintenances[] = new Maintenance($info);
             }
-            dump($maintenances);
+//            dump($maintenances);
 
             require_once "views/car/showOne.php";
         } catch (Exception $e) {
