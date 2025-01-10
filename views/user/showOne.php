@@ -18,14 +18,16 @@
                     <p class="font-medium"><?= $user->getLogin(); ?></p>
                 </div>
             </div>
-            <button onclick="openEditModal()"
-                    class="mt-6 bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition duration-300">
-                Modifier mes informations
-            </button>
-            <button onclick="openPasswordModal()"
-                    class="mt-6 bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition duration-300">
-                Modifier mon mot de passe
-            </button>
+            <?php if ($user->getId() == $_SESSION['user']['id']) : ?>
+                <button onclick="openEditModal()"
+                        class="mt-6 bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition duration-300">
+                    Modifier mes informations
+                </button>
+                <button onclick="openPasswordModal()"
+                        class="mt-6 bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition duration-300">
+                    Modifier mon mot de passe
+                </button>
+            <?php endif; ?>
         </div>
     </div>
     <h2 class="text-2xl font-bold mb-4 text-blue-900">Mes Véhicules</h2>
@@ -39,8 +41,10 @@
                         <div class="flex justify-between items-center">
                             <a href="?ctrl=car&action=showOne&id=<?= $car->getId(); ?>"
                                class="text-blue-900 hover:underline">Voir détails</a>
-                                                    <span class="text-sm text-gray-500">
-                            <?= $maintenance->getName(); ?></span>
+                            <span class="text-sm text-gray-500">
+                                                        <?php if (isset($maintenance)) : ?>
+                                                        <?= $maintenance->getName(); ?></span>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

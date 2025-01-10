@@ -2,15 +2,15 @@
 
 class Maintenance extends CoreEntity
 {
-    private int $id;
+    private ?int $id;
     private ?string $name;
     private ?string $description;
     private ?string $photo;
     private ?int $price;
     private ?string $date;
-    private int $carId;
-    private string $model;
-    private string $brand;
+    private ?int $carId;
+    private ?string $model;
+    private ?string $brand;
     private ?int $kilometers;
 
     /**
@@ -24,21 +24,21 @@ class Maintenance extends CoreEntity
     /**
      * @return string
      */
-    public function getModel(): string
+    public function getModel(): ?string
     {
         return $this->model;
     }
     /**
      * @return string
      */
-    public function getBrand(): string
+    public function getBrand(): ?string
     {
         return $this->brand;
     }
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -85,7 +85,7 @@ class Maintenance extends CoreEntity
     /**
      * @return int
      */
-    public function getCarId(): int
+    public function getCarId(): ?int
     {
         return $this->carId;
     }
@@ -134,7 +134,7 @@ class Maintenance extends CoreEntity
     /**
      * @param int $carId
      */
-    public function setCarId(int $carId): void
+    public function setCarId(?int $carId): void
     {
         $this->carId = $carId;
     }
@@ -150,7 +150,7 @@ class Maintenance extends CoreEntity
     /**
      * @param string $car_brand
      */
-    public function setBrand(string $brand): void
+    public function setBrand(?string $brand): void
     {
         $this->brand = $brand;
     }
@@ -158,7 +158,7 @@ class Maintenance extends CoreEntity
     /**
      * @param string $car_model
      */
-    public function setModel(string $model): void
+    public function setModel(?string $model): void
     {
         $this->model = $model;
     }

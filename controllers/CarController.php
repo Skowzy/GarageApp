@@ -12,13 +12,13 @@ class CarController
 
             $brandModel = new BrandModel();
             $datas = $brandModel->readAll();
-            foreach($datas as $data){
+            foreach ($datas as $data) {
                 $brands[] = new Brand($data);
             }
 
             $modelModel = new ModelModel();
             $datas = $modelModel->readAll();
-            foreach($datas as $data){
+            foreach ($datas as $data) {
                 $models[] = new Model($data);
             }
 
@@ -34,7 +34,6 @@ class CarController
      */
     public function store($request): void
     {
-        $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
 
 
         try {
@@ -42,6 +41,7 @@ class CarController
             $model = new CarModel();
 
             if (!empty($request['brand']) && !empty($request['model']) && !empty($request['year'])) {
+                $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
                 $car = $model->createCar($request);
             }
 
@@ -73,7 +73,7 @@ class CarController
             foreach ($datas as $data) {
                 $cars[] = new Car($data);
             }
-            
+
             $userModel = new UserModel();
             $info = $userModel->readOne($id);
             $user = new User($info);
@@ -105,10 +105,11 @@ class CarController
             $car = new Car($datas);
 
             $maintenanceModel = new MaintenanceModel();
-            $infos = $maintenanceModel->readAll($car->getId());
+            $infos = $maintenanceModel->readAll($id);
             foreach ($infos as $info) {
                 $maintenances[] = new Maintenance($info);
             }
+            dump($maintenances);
 
             require_once "views/car/showOne.php";
         } catch (Exception $e) {

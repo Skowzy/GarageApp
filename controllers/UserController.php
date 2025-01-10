@@ -52,23 +52,28 @@ class UserController
 
             if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login']) && !empty($request['password']) && !empty($request['passwordConfirm']) && $request['password'] == $request['passwordConfirm']) {
                 $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+                if(filter_var($request['login'], FILTER_VALIDATE_EMAIL)) {
+
                 $model = new UserModel();
 
                 $datas = $model->listUsers();
                 foreach ($datas as $data) {
                     if ($data['use_login'] == $request['login']) {
-                        header('Location: ?adduser=error');
+                        header('Location: ?ctrl=home&action=index&adduser=error');
                         exit();
                     }
                 }
                 $user = $model->createUser($request);
-            }
-            if ($user) {
-                header('Location: ?ctrl=home&action=index&adduser=success');
-                exit();
-            } else {
-                header('Location: ?ctrl=home&action=index&adduser=error');
-                exit();
+                    if ($user) {
+                        header('Location: ?ctrl=home&action=index&adduser=success');
+                        exit();
+                    } else {
+                        header('Location: ?ctrl=home&action=index&adduser=error');
+                        exit();
+                    }
+                }else{
+                    header('Location: ?ctrl=home&action=index&adduser=error');
+                }
             }
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -171,22 +176,34 @@ class UserController
             try {
                 $userModel = new UserModel();
                 $data = $userModel->readOne($id);
+                
+                if (!$data) {
+                    header("location: ?ctrl=home&action=index&error=404");
+                    exit();
+                }
+                
                 $user = new User($data);
 
                 $carModel = new CarModel();
                 $infos = $carModel->viewCars($id);
                 $maintenanceModel = new MaintenanceModel();
+                $userCars = [];
+                $lastMaintenances = [];
 
-                foreach ($infos as $info) {
-                    $userCars[] = new Car($info);
-                }
-                foreach ($userCars as $userCar) {
-                    $datas = $maintenanceModel->getLastMaintenance($userCar->getId());
-                    $maintenance = new Maintenance($datas);
+                if ($infos) {
+                    foreach ($infos as $info) {
+                        $userCars[] = new Car($info);
+                    }
+
+                    foreach ($userCars as $userCar) {
+                        $maintenanceData = $maintenanceModel->getLastMaintenance($userCar->getId());
+                        if ($maintenanceData) {
+                            $lastMaintenances[$userCar->getId()] = new Maintenance($maintenanceData);
+                        }
+                    }
                 }
 
                 require "views/user/showOne.php";
-
 
             } catch (Exception $e) {
                 echo $e->getMessage();

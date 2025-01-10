@@ -9,8 +9,8 @@ class MaintenanceController
      */
     public function showAll($id)
     {
-        try{
-            $maintenances=[];
+        try {
+            $maintenances = [];
             $model = new MaintenanceModel();
             $datas = $model->readAll($id);
 
@@ -18,9 +18,9 @@ class MaintenanceController
                 $maintenances[] = new Maintenance($data);
             }
 
-                require_once "views/maintenance/showAll.php";
+            require_once "views/maintenance/showAll.php";
 
-        }catch (Exception $e){
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
@@ -34,34 +34,33 @@ class MaintenanceController
 
         try {
 
-        $model = new MaintenanceModel();
-        $datas = $model->readOne($id);
+            $model = new MaintenanceModel();
+            $datas = $model->readOne($id);
 
-        $maintenance = new Maintenance($datas);
-        if($maintenance){
-            require_once "views/maintenance/showOne.php";
-        }
-        }catch (Exception $e){
+            $maintenance = new Maintenance($datas);
+            if ($maintenance) {
+                require_once "views/maintenance/showOne.php";
+            }
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
     public function update($request)
     {
-        try{
-            $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-
-            if($request){
+        try {
+            if ($request) {
+                $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
                 $model = new MaintenanceModel();
                 $maintenance = $model->update($request);
-                if($maintenance){
-                    header("Location: ?ctrl=maintenance&action=showOne&id=".$request["id"]."&update=success");
-                }else{
-                    header("Location: ?ctrl=maintenance&action=showOne&id=".$request["id"]."&update=error");
+                if ($maintenance) {
+                    header("Location: ?ctrl=maintenance&action=showOne&id=" . $request["id"] . "&update=success");
+                } else {
+                    header("Location: ?ctrl=maintenance&action=showOne&id=" . $request["id"] . "&update=error");
                 }
             }
 
-        }catch (Exception $e){
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
@@ -70,25 +69,25 @@ class MaintenanceController
      * @param $request
      * @return void
      */
-    public function remove($request) :void
+    public function remove($request): void
     {
-        try{
+        try {
             $model = new MaintenanceModel();
             $delete = $model->deleteMaintenance($request);
-            if($delete){
-                header("Location: ?ctrl=maintenance&action=showAll&id=".$_SESSION['user']['id']."&delete=success");
-            }else{
-                header("Location: ?ctrl=maintenance&action=showAll&id=".$_SESSION['user']['id']."&delete=error");
+            if ($delete) {
+                header("Location: ?ctrl=maintenance&action=showAll&id=" . $_SESSION['user']['id'] . "&delete=success");
+            } else {
+                header("Location: ?ctrl=maintenance&action=showAll&id=" . $_SESSION['user']['id'] . "&delete=error");
             }
 
-        }catch (Exception $e){
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
     public function create($id)
     {
-        try{
+        try {
             $carModel = new CarModel();
             $datas = $carModel->readOne($id);
             $car = new Car($datas);
@@ -100,22 +99,22 @@ class MaintenanceController
             }
 
             require_once "views/maintenance/addOne.php";
-        }catch (Exception $e){
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
 
     public function store($request)
     {
-        try{
+        try {
             $maintenanceModel = new MaintenanceModel();
             $create = $maintenanceModel->createMaintenance($request);
-            if($create){
-                header("Location: ?ctrl=maintenance&action=showAll&id=".$_SESSION['user']['id']."&create=success");
-            }else{
-                header("Location: ?ctrl=maintenance&action=showAll&id=".$_SESSION['user']['id']."&create=error");
+            if ($create) {
+                header("Location: ?ctrl=maintenance&action=showAll&id=" . $_SESSION['user']['id'] . "&create=success");
+            } else {
+                header("Location: ?ctrl=maintenance&action=showAll&id=" . $_SESSION['user']['id'] . "&create=error");
             }
-        }catch(Exception $e){
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
