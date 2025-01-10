@@ -52,18 +52,18 @@ class UserController
 
             if (!empty($request['firstname']) && !empty($request['lastname']) && !empty($request['login']) && !empty($request['password']) && !empty($request['passwordConfirm']) && $request['password'] == $request['passwordConfirm']) {
                 $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-                if(filter_var($request['login'], FILTER_VALIDATE_EMAIL)) {
+                if (filter_var($request['login'], FILTER_VALIDATE_EMAIL)) {
 
-                $model = new UserModel();
+                    $model = new UserModel();
 
-                $datas = $model->listUsers();
-                foreach ($datas as $data) {
-                    if ($data['use_login'] == $request['login']) {
-                        header('Location: ?ctrl=home&action=index&adduser=error');
-                        exit();
+                    $datas = $model->listUsers();
+                    foreach ($datas as $data) {
+                        if ($data['use_login'] == $request['login']) {
+                            header('Location: ?ctrl=home&action=index&adduser=error');
+                            exit();
+                        }
                     }
-                }
-                $user = $model->createUser($request);
+                    $user = $model->createUser($request);
                     if ($user) {
                         header('Location: ?ctrl=home&action=index&adduser=success');
                         exit();
@@ -71,7 +71,7 @@ class UserController
                         header('Location: ?ctrl=home&action=index&adduser=error');
                         exit();
                     }
-                }else{
+                } else {
                     header('Location: ?ctrl=home&action=index&adduser=error');
                 }
             }
@@ -95,31 +95,35 @@ class UserController
     public function connexion($request): void
     {
         try {
-            $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
             if (!empty($request['login']) && !empty($request['password'])) {
-                $model = new UserModel();
-                $login = $model->login($request);
-            }
-            if ($login) {
-                $lastLogin = $model->lastLogin($request);
-                $_SESSION['user'] = [
-                    'id' => $login['use_id'],
-                    'firstname' => $login['use_firstname'],
-                    'lastname' => $login['use_lastname'],
-                    'login' => $login['use_login'],
-                    'power' => $login['rol_power'],
-                    'role' => $login['rol_id'],
-                ];
-
-                if ($_SESSION['user']['power'] < 100) {
-                    header('Location: ?ctrl=home&action=index&connexion=success');
-                    exit();
-                } elseif ($_SESSION['user']['power'] >= 100) {
-                    header('Location: ?ctrl=user&action=showAll&connexion=success');
+                $request = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+                if (filter_var($request['login'], FILTER_VALIDATE_EMAIL)) {
+                    $model = new UserModel();
+                    $login = $model->login($request);
                 }
-            } else {
+                if ($login) {
+                    $lastLogin = $model->lastLogin($request);
+                    $_SESSION['user'] = [
+                        'id' => $login['use_id'],
+                        'firstname' => $login['use_firstname'],
+                        'lastname' => $login['use_lastname'],
+                        'login' => $login['use_login'],
+                        'power' => $login['rol_power'],
+                        'role' => $login['rol_id'],
+                    ];
+
+                    if ($_SESSION['user']['power'] < 100) {
+                        header('Location: ?ctrl=home&action=index&connexion=success');
+                        exit();
+                    } elseif ($_SESSION['user']['power'] >= 100) {
+                        header('Location: ?ctrl=user&action=showAll&connexion=success');
+                    }
+                } else {
+                    header('Location: ?ctrl=home&action=index&connexion=error');
+                    exit();
+                }
+            }else{
                 header('Location: ?ctrl=home&action=index&connexion=error');
-                exit();
             }
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -176,12 +180,12 @@ class UserController
             try {
                 $userModel = new UserModel();
                 $data = $userModel->readOne($id);
-                
+
                 if (!$data) {
                     header("location: ?ctrl=home&action=index&error=404");
                     exit();
                 }
-                
+
                 $user = new User($data);
 
                 $carModel = new CarModel();

@@ -8,6 +8,7 @@ class HomeController
         try{
             $brandModel = new BrandModel();
             $datas = $brandModel->readAll();
+//            dump($datas);
             foreach($datas as $data){
                 $brands[] = new Brand($data);
             }

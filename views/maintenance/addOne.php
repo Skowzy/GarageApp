@@ -7,7 +7,7 @@
 
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <div class="p-6">
-            <h1 class="text-3xl font-bold mb-6 text-blue-900">Ajouter une Maintenance</h1>
+            <h1 class="text-3xl font-bold mb-6 text-blue-900">Ajouter un entretien</h1>
             <h2 class="text-3xl font-bold mb-6 text-blue-900"><?= $car->getBrand() . ' ' . $car->getModel() . ' (' . $car->getYear() . ')' ?></h2>
 
             <form action="?ctrl=maintenance&action=store" method="POST" enctype="multipart/form-data" class="space-y-6">
@@ -17,9 +17,9 @@
                 </div>
 
                 <div>
-                    <label for="type" class="block mb-2">Type de maintenance</label>
+                    <label for="type" class="block mb-2">Type d'entretien</label>
                     <select name="type" id="type" class="w-full p-2 border rounded" required>
-                        <option selected disabled>Sélectionner une maintenance</option>
+                        <option selected disabled>Sélectionner un entretien</option>
                         <?php foreach ($types as $type) : ?>
                             <option value="<?= $type->getId() ?>"><?= $type->getLabel() ?></option>
                         <?php endforeach; ?>
@@ -27,7 +27,7 @@
                 </div>
 
                 <div>
-                    <label for="date" class="block text-sm font-medium text-gray-700">Date de la maintenance</label>
+                    <label for="date" class="block text-sm font-medium text-gray-700">Date de l'entretien</label>
                     <input type="date" id="date" name="date" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
 
@@ -48,7 +48,7 @@
 
                 <div class="flex justify-end">
                     <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">
-                        <i class="fas fa-plus-circle mr-2"></i>Ajouter la maintenance
+                        <i class="fas fa-plus-circle mr-2"></i>Ajouter l'entretien
                     </button>
                 </div>
             </form>

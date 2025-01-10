@@ -103,6 +103,7 @@
     // Stock brand's value onChange
     brandSelect.addEventListener("change", (event) => {
         const selectedBrandId = event.target.value;
+        console.log(selectedBrandId);
 
         //Loop to check if prop "data-brand" === stocked brandSelect
 
