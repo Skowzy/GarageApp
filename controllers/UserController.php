@@ -59,7 +59,7 @@ class UserController
                     $datas = $model->listUsers();
                     foreach ($datas as $data) {
                         if ($data['use_login'] == $request['login']) {
-                            header('Location: ?ctrl=home&action=index&adduser=error');
+                            header('Location: ?ctrl=user&action=register&adduser=error');
                             exit();
                         }
                     }
@@ -72,7 +72,7 @@ class UserController
                         exit();
                     }
                 } else {
-                    header('Location: ?ctrl=home&action=index&adduser=error');
+                    header('Location: ?ctrl=user&action=register&adduser=error');
                 }
             }
         } catch (Exception $e) {
