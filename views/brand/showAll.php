@@ -103,7 +103,6 @@
         function openDeleteModal(brandId) {
             document.getElementById('deleteModal').classList.remove('hidden');
             selectedBrandId = brandId;
-            console.log(selectedBrandId)
         }
 
         function closeDeleteModal() {
